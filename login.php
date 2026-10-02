@@ -10,7 +10,8 @@ if (isset($_SESSION['user'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EcoTrade — Sign in</title>
+    <title>EcoLoop — Sign in</title>
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -44,11 +45,9 @@ if (isset($_SESSION['user'])) {
             <a href="index.php" class="inline-flex items-center gap-2 text-neutral-500 hover:text-neutral-300 mb-8 text-sm transition-colors">
                 <i class="fa-solid fa-arrow-left text-xs"></i> Back to home
             </a>
-            <div class="w-11 h-11 rounded-xl bg-white flex items-center justify-center mx-auto mb-5">
-                <i class="fa-solid fa-leaf text-neutral-950"></i>
-            </div>
+            <img src="assets/favicon.svg" alt="EcoLoop" class="w-12 h-12 rounded-xl mx-auto mb-5">
             <h2 class="text-2xl font-bold tracking-tight" id="form-title">Welcome back</h2>
-            <p class="text-neutral-400 mt-2 text-sm" id="form-subtitle">Sign in to continue to EcoTrade.</p>
+            <p class="text-neutral-400 mt-2 text-sm" id="form-subtitle">Sign in to continue to EcoLoop.</p>
         </div>
 
         <div class="bg-neutral-900/60 border border-neutral-800 rounded-2xl p-7">
@@ -108,7 +107,7 @@ if (isset($_SESSION['user'])) {
         function updateUI() {
             if (isSignup) {
                 formTitle.textContent = 'Create account';
-                formSubtitle.textContent = 'Join EcoTrade and start trading locally.';
+                formSubtitle.textContent = 'Join EcoLoop and start trading locally.';
                 pincodeGroup.classList.remove('hidden');
                 pincodeInput.required = true;
                 btnText.textContent = 'Sign up';
@@ -116,7 +115,7 @@ if (isset($_SESSION['user'])) {
                 toggleBtn.textContent = 'Sign in';
             } else {
                 formTitle.textContent = 'Welcome back';
-                formSubtitle.textContent = 'Sign in to continue to EcoTrade.';
+                formSubtitle.textContent = 'Sign in to continue to EcoLoop.';
                 pincodeGroup.classList.add('hidden');
                 pincodeInput.required = false;
                 btnText.textContent = 'Sign in';
@@ -168,3 +167,4 @@ if (isset($_SESSION['user'])) {
     </script>
 </body>
 </html>
+
