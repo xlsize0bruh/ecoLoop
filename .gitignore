@@ -1,8 +1,11 @@
 /uploads/*
 !/uploads/.htaccess
-*.sqlite*
+data/demo/
+data/.lock
+data/.write-*
 *.log
 .env
 .DS_Store
 __pycache__/
 *.pyc
+

@@ -1,27 +1,53 @@
 <?php
-// Keep EcoTrade's document API; commit every request in one SQLite transaction.
-$storage = getenv('ECOLOOP_DATA_DIR') ?: dirname(__DIR__, 2) . '/ecoloop-storage';
-if (!is_dir($storage)) mkdir($storage, 0700, true);
-$db = new PDO('sqlite:' . $storage . (getenv('ECOLOOP_DEMO') === '1' ? '/demo.sqlite' : '/community.sqlite'));
-$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-$db->exec('PRAGMA busy_timeout=10000');
-$db->exec('CREATE TABLE IF NOT EXISTS documents (name TEXT PRIMARY KEY, body TEXT NOT NULL)');
-$db->exec('BEGIN IMMEDIATE');
-register_shutdown_function(function () use ($db) {
-    $error = error_get_last();
-    $failed = $error && in_array($error['type'], [E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR]);
-    $db->exec($failed ? 'ROLLBACK' : 'COMMIT');
+// Keep EcoTrade's original JSON-file storage model. Demo data is isolated from
+// ordinary community data, and one lock is held for the complete request so two
+// simultaneous writes cannot read the same old state and overwrite each other.
+$storage = getenv('ECOLOOP_DATA_DIR') ?: __DIR__ . '/../data';
+if (getenv('ECOLOOP_DEMO') === '1') $storage .= '/demo';
+if (!is_dir($storage) && !mkdir($storage, 0700, true) && !is_dir($storage)) {
+    throw new RuntimeException('Unable to create the EcoLoop data directory.');
+}
+$storage = realpath($storage);
+$storageLock = fopen($storage . '/.lock', 'c');
+if (!$storageLock || !flock($storageLock, LOCK_EX)) {
+    throw new RuntimeException('Unable to lock the EcoLoop data directory.');
+}
+register_shutdown_function(function () use ($storageLock) {
+    flock($storageLock, LOCK_UN);
+    fclose($storageLock);
 });
+function dataPath($filename) {
+    global $storage;
+    if (!is_string($filename) || !preg_match('/^[A-Za-z0-9_-]+\.json$/', $filename)) {
+        throw new InvalidArgumentException('Invalid data filename.');
+    }
+    return $storage . DIRECTORY_SEPARATOR . $filename;
+}
 function readJson($filename) {
-    global $db;
-    $query = $db->prepare('SELECT body FROM documents WHERE name = ?');
-    $query->execute([$filename]); $body = $query->fetchColumn();
-    return $body === false ? [] : json_decode($body, true, 512, JSON_THROW_ON_ERROR);
+    $path = dataPath($filename);
+    if (!is_file($path)) return [];
+    $body = file_get_contents($path);
+    if ($body === false || trim($body) === '') return [];
+    return json_decode($body, true, 512, JSON_THROW_ON_ERROR);
 }
 function writeJson($filename, $data) {
-    global $db;
-    $query = $db->prepare('INSERT INTO documents (name,body) VALUES (?,?) ON CONFLICT(name) DO UPDATE SET body=excluded.body');
-    $query->execute([$filename, json_encode($data, JSON_THROW_ON_ERROR)]);
+    $path = dataPath($filename);
+    $temporary = tempnam(dirname($path), '.write-');
+    if ($temporary === false) throw new RuntimeException('Unable to create a temporary data file.');
+    $json = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR) . "\n";
+    if (file_put_contents($temporary, $json) === false) {
+        @unlink($temporary);
+        throw new RuntimeException('Unable to write EcoLoop data.');
+    }
+    if (!@rename($temporary, $path)) {
+        // Windows cannot always replace an existing file with rename(). The
+        // request-wide lock still prevents other requests from seeing this gap.
+        @unlink($path);
+        if (!rename($temporary, $path)) {
+            @unlink($temporary);
+            throw new RuntimeException('Unable to replace EcoLoop data.');
+        }
+    }
 }
 function apiError($message) { echo json_encode(['success'=>false,'error'=>$message]); exit; }
 function projectLocked($id) {
@@ -49,3 +75,4 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
         if (strcasecmp($host,$_SERVER['HTTP_HOST']??'')!==0) apiError('Cross-site request refused.');
     }
 }
+

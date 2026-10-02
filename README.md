@@ -8,7 +8,7 @@ The design keeps EcoTrade's charcoal backgrounds, Inter typography, compact butt
 
 ## Run
 
-Requirements: **PHP 8.2+ with PDO SQLite** and a writable storage directory. The code is tested on PHP 8.4. Browser styling on the original EcoTrade pages uses the existing Tailwind CDN, Font Awesome CDN and Google Fonts; internet access is needed for those assets. The new Studio's CSS and illustrations are local.
+Requirements: **PHP 8.2+** and a writable data directory. No database server or PHP database extension is needed. The code is tested on PHP 8.4. Browser styling on the original EcoTrade pages uses the existing Tailwind CDN, Font Awesome CDN and Google Fonts; internet access is needed for those assets. The new Studio's CSS and illustrations are local.
 
 From the repository root:
 
@@ -18,7 +18,7 @@ php -S 127.0.0.1:8000 router.php
 
 Open `http://127.0.0.1:8000`. This starts a fresh community. Register accounts through the original sign-in page, using an eight-character-or-longer password and a six-digit pincode. Project materials match only within the same pincode.
 
-The SQLite database defaults to an **ecoloop-storage directory beside the repository**, outside its web root. Override this with the absolute environment variable `ECOLOOP_DATA_DIR`. Store it on persistent local storage and back it up. The web process must be able to create/write this directory and `uploads/`. Runtime accounts, balances and uploads are never committed to Git.
+Runtime state is stored as readable JSON files in `data/`, following the original EcoTrade approach. The web process must be able to write `data/` and `uploads/`. You can point `ECOLOOP_DATA_DIR` at another writable directory; this is useful for Docker volumes or keeping runtime data outside the web root. Back up the JSON files and uploaded images if the demo data matters.
 
 To appoint an organiser, after registering the account:
 
@@ -46,7 +46,7 @@ php manage.php demo
 php -S 127.0.0.1:8000 router.php
 ```
 
-Open `login.php` and select **Enter demo community**. A labelled role selector lets you try Pratyush, Asha, Kabir, Mira and the community organiser. Demo data uses `demo.sqlite`; normal mode uses `community.sqlite`. The role-switch endpoint returns 404 outside demo mode. Never enable demo mode on a real community deployment. Seeding refuses to overwrite existing accounts.
+Open `login.php` and select **Enter demo community**. A labelled role selector lets you try Pratyush, Asha, Kabir, Mira and the community organiser. Demo data is isolated in `data/demo/*.json`; normal mode uses `data/*.json`. The role-switch endpoint returns 404 outside demo mode. Never enable demo mode on a real community deployment. Seeding refuses to overwrite existing accounts.
 
 ### Full demo journey
 
@@ -83,20 +83,20 @@ All supplier approvals are required. Quantities are provisionally held at reques
 
 ## Storage and consistency
 
-EcoTrade's `readJson` / `writeJson` interfaces now use SQLite documents. Every HTTP request runs in a `BEGIN IMMEDIATE` transaction with a busy timeout. This preserves the existing PHP code style while making changes to inventory, holds and credit entries atomic and serializing competing requests. All transfer entries have transaction references; balances are derived from ledger history and active holds.
+EcoTrade's `readJson` / `writeJson` interfaces read and write ordinary JSON files. A request-wide file lock serializes simultaneous requests, and updates are written to a temporary file before replacing the destination. Project stock, holds and credit entries live together in `loop.json`, so the important kit settlement is one atomic file replacement. All transfer entries have transaction references; balances are derived from ledger history and active holds.
 
-The legacy JSON files in `data/` are empty fixtures and are not a runtime data source. No accounts or transactions from either previous repository are migrated automatically. This replacement is a fresh installation; previous source remains in Git history.
+The committed JSON files are empty starting data. No accounts or transactions from either previous repository are migrated automatically. This replacement is a fresh installation; previous source remains in Git history.
 
 ## Deployment
 
-Use a PHP host with PDO SQLite or the included Apache Docker image:
+Use a PHP host with persistent writable files, or the included Apache Docker image:
 
 ```sh
 docker build -t ecoloop .
 docker run --rm -p 8080:80 -v ecoloop-data:/var/www/ecoloop-storage -v ecoloop-uploads:/var/www/html/uploads ecoloop
 ```
 
-Use HTTPS, persistent storage, database/file backups and a single application instance using a local disk. The development server is for local demonstration. Apache must honour the supplied `.htaccess`; for another server configure equivalent denials for dotfiles, `data/`, `tests/`, `docs/`, `manage.php`, `router.php` and internal API helpers. Never execute uploaded files. Set secure, HttpOnly, SameSite session cookies in production. Disable PHP error display and add rate limiting at the web server for login/registration.
+Use HTTPS, persistent storage, JSON/upload backups and a single application instance using a shared local disk. The development server is for local demonstration. Apache must honour the supplied `.htaccess`; for another server configure equivalent denials for dotfiles, `data/`, `tests/`, `docs/`, `manage.php`, `router.php` and internal API helpers. Never execute uploaded files. Set secure, HttpOnly, SameSite session cookies in production. Disable PHP error display and add rate limiting at the web server for login/registration.
 
 This repository replaces the former Python/WSGI application. An existing host configured to start `app.py`, `wsgi.py` or serve `public/` must be updated to use the repository root with PHP. Uploading this code does not change an external hosting service's runtime settings.
 
@@ -109,7 +109,7 @@ node --check assets/app.js
 node --check assets/loop.js
 ```
 
-Python is used only for HTTP integration tests. The test starts its own PHP server and temporary database, checks original barter/chat and the full credit/project lifecycle, and shuts it down. Set `PHP_BIN` if PHP is not on PATH; Windows portable PHP can use `PHP_EXTENSION_DIR` for its PDO SQLite extension.
+Python is used only for HTTP integration tests. The test starts its own PHP server and temporary JSON data directory, checks original barter/chat and the full credit/project lifecycle, and shuts it down. Set `PHP_BIN` if PHP is not on PATH.
 
 The current suites contain **46 domain checks and 47 HTTP checks**. GitHub Actions runs both plus syntax validation. Manual browser checks cover the 60-credit match, separate supplier approvals, organiser intake/check-in, collection, supplier redemption and responsive Studio views.
 
@@ -118,3 +118,4 @@ The current suites contain **46 domain checks and 47 HTTP checks**. GitHub Actio
 Base: `xlsize0bruh/ecotrade` at `8d76d88c229a9d6fde3409da66431a49ab56e509`. Its last JavaScript update references borrowing/donation endpoints and modal elements absent from that repository. This version restores `assets/app.js` from EcoTrade's matching complete UI revision `d8b9191` so the existing dashboard works; no functioning borrowed-item or donation server existed to carry over. The marketplace layout is preserved, with a Project Studio navigation link and focused permission/upload/transaction fixes.
 
 This is a working community pilot, not an automated logistics service. Collection scheduling is coordinated with the organiser; the app does not guarantee availability by a date. It currently records finished-project text, not project photo uploads or automatically quantified leftovers. Relist leftovers through My Items. There is no AI dependency, automatic substitution, email notification service, cash system, loss/write-down accounting or multi-campus administration. Pause stock intake and resolve any physical stock discrepancy before continuing a real pilot.
+

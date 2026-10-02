@@ -3,7 +3,7 @@ if (PHP_SAPI !== 'cli') { http_response_code(404); exit; }
 require_once __DIR__ . '/api/loop-core.php';
 $command=$argv[1]??'';
 if ($command==='demo') {
-    demand(getenv('ECOLOOP_DEMO')==='1','Set ECOLOOP_DEMO=1 to seed the isolated demo database.');
+    demand(getenv('ECOLOOP_DEMO')==='1','Set ECOLOOP_DEMO=1 to seed the isolated demo data.');
     demand(!readJson('users.json'),'Demo already contains accounts. Use a new data directory for a fresh run.');
     $users=[];
     foreach (['maker'=>'Pratyush','asha'=>'Asha','kabir'=>'Kabir','mira'=>'Mira','organiser'=>'Community organiser'] as $id=>$name) $users[]=['id'=>$id,'username'=>$name,'password'=>password_hash(bin2hex(random_bytes(20)),PASSWORD_DEFAULT),'pincode'=>'700001','role'=>$id==='organiser'?'organiser':'member','positive_reviews'=>0,'negative_reviews'=>0];
@@ -21,3 +21,4 @@ if ($command==='demo') {
     foreach ($users as &$u) if ($u['username']===$username) {$u['role']='organiser';$found=true;}
     demand($found,'Register this account first.'); writeJson('users.json',$users); echo "Organiser role granted.\n";
 } else echo "Commands: demo | organiser username\n";
+

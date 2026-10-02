@@ -1,5 +1,5 @@
 <?php
-// Isolated domain regression tests. Never read a live database.
+// Isolated domain regression tests. Never read live community data.
 putenv('ECOLOOP_DATA_DIR='.sys_get_temp_dir().'/ecoloop-test-'.bin2hex(random_bytes(8)));
 putenv('ECOLOOP_DEMO=0');
 require_once __DIR__.'/../api/loop-core.php';
@@ -98,3 +98,4 @@ check(matchKit($s,$u['maker'],$input['requirements'])['total']===40,'Voluntary g
 writeJson('trades.json',[['wanted_item_id'=>'card','offered_item_id'=>'unrelated','status'=>'pending']]);
 check(!matchKit($s,$u['maker'],$input['requirements'])['complete'],'Original trade reservations exclude project matches');
 echo "\n$checks checks passed.\n";
+

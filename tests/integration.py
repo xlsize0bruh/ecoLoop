@@ -1,8 +1,7 @@
-"""Run the actual PHP HTTP API against a fresh, isolated database (Python stdlib)."""
+"""Run the actual PHP HTTP API against fresh, isolated JSON data (Python stdlib)."""
 import http.cookiejar, json, os, pathlib, socket, subprocess, tempfile, time, urllib.request, urllib.parse, urllib.error
 root=pathlib.Path(__file__).resolve().parents[1]
 php=[os.environ.get('PHP_BIN','php')]
-if os.environ.get('PHP_EXTENSION_DIR'): php += ['-d','extension_dir='+os.environ['PHP_EXTENSION_DIR'],'-d','extension=pdo_sqlite']
 class Client:
     def __init__(self): self.http=urllib.request.build_opener(urllib.request.HTTPCookieProcessor(http.cookiejar.CookieJar()))
     def call(self,path,data=None,form=False):
@@ -73,3 +72,4 @@ with tempfile.TemporaryDirectory(prefix='ecoloop-http-') as storage:
         print(f'\n{checks} HTTP checks passed.')
     finally:
         server.terminate();server.wait(timeout=10)
+
