@@ -11,7 +11,8 @@ $user = $_SESSION['user'];
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EcoTrade — Dashboard</title>
+    <title>Marketplace — EcoLoop</title>
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -57,23 +58,26 @@ $user = $_SESSION['user'];
     <header class="border-b border-neutral-900 bg-neutral-950 z-20 shrink-0">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 w-full">
             <div class="flex justify-between items-center h-16">
-                <div class="flex items-center gap-2.5">
-                    <div class="w-7 h-7 rounded-lg bg-white flex items-center justify-center">
-                        <i class="fa-solid fa-leaf text-neutral-950 text-sm"></i>
-                    </div>
-                    <span class="font-semibold text-[15px] tracking-tight hidden sm:block">EcoTrade</span>
-                </div>
+                <a href="dashboard.php" class="flex items-center gap-2.5" aria-label="EcoLoop marketplace">
+                    <img src="assets/favicon.svg" alt="" class="w-8 h-8 rounded-[9px]">
+                    <span class="font-semibold text-[15px] tracking-tight hidden sm:block">EcoLoop</span>
+                </a>
+
+                <nav class="absolute left-1/2 -translate-x-1/2 flex items-center rounded-xl border border-neutral-800 bg-neutral-900 p-1" aria-label="EcoLoop sections">
+                    <a href="dashboard.php" aria-current="page" class="bg-neutral-700 text-white px-3 sm:px-4 py-1.5 rounded-lg text-xs sm:text-sm font-medium">Marketplace</a>
+                    <a href="projects.php" class="text-neutral-400 hover:text-white px-3 sm:px-4 py-1.5 rounded-lg text-xs sm:text-sm font-medium">Projects</a>
+                </nav>
 
                 <div class="flex items-center gap-3">
                     <div class="hidden sm:flex items-center gap-1.5 text-xs text-neutral-500">
                         <span class="w-1.5 h-1.5 rounded-full bg-emerald-400/80 live-dot"></span>
                         Live
                     </div>
-                    <div class="text-xs text-neutral-400 flex items-center gap-1.5 bg-neutral-900 border border-neutral-800 px-2.5 py-1.5 rounded-lg">
+                    <div class="text-xs text-neutral-400 hidden md:flex items-center gap-1.5 bg-neutral-900 border border-neutral-800 px-2.5 py-1.5 rounded-lg">
                         <i class="fa-solid fa-location-dot text-neutral-500 text-[10px]"></i>
                         <span class="font-medium text-neutral-200"><?php echo htmlspecialchars($user['pincode']); ?></span>
                     </div>
-                    <div class="flex items-center gap-2.5 pl-1">
+                    <div class="hidden md:flex items-center gap-2.5 pl-1">
                         <div class="w-8 h-8 rounded-full bg-neutral-800 border border-neutral-700 flex items-center justify-center font-semibold text-sm">
                             <?php echo htmlspecialchars(strtoupper(substr($user['username'], 0, 1))); ?>
                         </div>
@@ -97,7 +101,6 @@ $user = $_SESSION['user'];
         <!-- Sidebar -->
         <aside class="w-[68px] sm:w-60 border-r border-neutral-900 bg-neutral-950 flex flex-col shrink-0">
             <nav class="flex-1 px-2 sm:px-3 py-5 space-y-1">
-<a href="projects.php" title="Project Studio" class="w-full flex items-center px-2 sm:px-3 py-2.5 rounded-xl text-sm font-medium text-neutral-200 hover:bg-neutral-900"><i class="fa-solid fa-shapes text-base sm:mr-3 mx-auto sm:mx-0 w-5 text-center"></i><span class="hidden sm:block">Project Studio <span class="text-[9px] text-lime-300 ml-1">NEW</span></span></a>
                 <button data-tab="market" class="tab-btn w-full flex items-center px-2 sm:px-3 py-2.5 rounded-xl text-sm font-medium transition-all text-neutral-400 hover:bg-neutral-900 hover:text-neutral-200">
                     <i class="fa-solid fa-store text-base sm:mr-3 mx-auto sm:mx-0 w-5 text-center"></i>
                     <span class="hidden sm:block">Marketplace</span>
@@ -339,3 +342,4 @@ $user = $_SESSION['user'];
     <script src="assets/app.js"></script>
 </body>
 </html>
+
