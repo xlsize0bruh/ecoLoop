@@ -1,0 +1,8 @@
+.env
+php-config.php
+storage/
+.venv/
+__pycache__/
+*.py[cod]
+*.log
+.DS_Store

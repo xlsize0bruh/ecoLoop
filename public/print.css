@@ -1,0 +1,1 @@
+.sidebar,.topbar,.demo-banner,.page-footer,button,#overlay{display:none!important}.shell{display:block}main{padding:20px;max-width:none}.market-grid{grid-template-columns:repeat(3,1fr)}body{background:white;color:black}.item-card,.panel,.project-row{break-inside:avoid;box-shadow:none}

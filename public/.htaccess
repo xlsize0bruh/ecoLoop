@@ -1,0 +1,10 @@
+Require all granted
+Options -Indexes
+DirectoryIndex index.php
+RewriteEngine On
+# Route every request through the same security headers and static-file allowlist.
+RewriteRule ^index\.php$ - [L]
+RewriteRule ^ index.php [L,QSA]
+<FilesMatch "^\.">
+    Require all denied
+</FilesMatch>

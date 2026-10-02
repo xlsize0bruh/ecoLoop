@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "users": [],
+  "sessions": [],
+  "items": [],
+  "contributions": [],
+  "contribution_items": [],
+  "projects": [],
+  "kits": [],
+  "kit_lines": [],
+  "exchanges": [],
+  "ledger": [],
+  "holds": [],
+  "messages": [],
+  "notifications": [],
+  "wants": [],
+  "uploads": [],
+  "settings": {},
+  "rate_limits": {}
+}

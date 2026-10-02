@@ -1,0 +1,2 @@
+# Defence in depth only. The site's document root MUST be the public/ directory.
+Require all denied
