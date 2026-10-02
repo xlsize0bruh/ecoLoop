@@ -79,7 +79,7 @@ function renderPage() {
   if (state.route === 'requests') return signedInPage(requestsPage);
   if (state.route === 'wallet') return signedInPage(walletPage);
   if (state.route === 'impact') return impactPage();
-  if (state.route === 'organiser') return state.data.user?.role === 'organiser' ? organiserPage() : empty('The organiser's desk', 'This space is for your community's approved organisers.');
+  if (state.route === 'organiser') return state.data.user?.role === 'organiser' ? organiserPage() : empty("The organiser's desk", "This space is for your community's approved organisers.");
   return '';
 }
 function filteredItems() {
