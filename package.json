@@ -1,0 +1,25 @@
+{
+  "name": "ecoloop",
+  "version": "1.0.0",
+  "description": "",
+  "main": "Script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "vite"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xlsize0bruh/ecoLoop.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/xlsize0bruh/ecoLoop/issues"
+  },
+  "homepage": "https://github.com/xlsize0bruh/ecoLoop#readme",
+  "devDependencies": {
+    "vite": "^8.3.2"
+  }
+}

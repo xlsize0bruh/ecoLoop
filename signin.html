@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In - EcoLoop</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:ital,wght@0,300;0,400;0,500;0,700;0,900;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="Style.css">
+  <link rel="stylesheet" href="auth.css">
+  <link rel="icon" href="/favicon.png" type="image/png">
+</head>
+<body class="auth-page">
+  <div class="auth-container">
+    <div class="glass-card">
+      <div class="auth-header">
+        <img src="favicon.png" alt="EcoLoop Logo" class="auth-logo">
+        <h2>Welcome Back</h2>
+        <p>Sign in to continue to EcoLoop.</p>
+      </div>
+      <form class="auth-form" action="/" method="GET">
+        <div class="input-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" placeholder="Enter your email" required>
+        </div>
+        <div class="input-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" placeholder="Enter your password" required>
+        </div>
+        <button type="submit" class="primary-btn auth-submit">Sign In <span class="btn-icon">&#x2192;</span></button>
+      </form>
+      <div class="auth-footer">
+        <p>Don't have an account? <a href="signup.html">Sign Up</a></p>
+        <p><a href="index.html" class="back-link">&larr; Back to Home</a></p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

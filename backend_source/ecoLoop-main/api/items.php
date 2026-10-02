@@ -4,14 +4,13 @@ require_once 'db.php';
 
 header('Content-Type: application/json');
 
-$isGuest = !isset($_SESSION['user']);
-$user = $isGuest ? ['username' => 'Guest', 'pincode' => 'Anywhere'] : $_SESSION['user'];
-$action = $_GET['action'] ?? '';
-
-if ($isGuest && $action !== 'list') {
+if (!isset($_SESSION['user'])) {
     echo json_encode(['success' => false, 'error' => 'Unauthorized']);
     exit;
 }
+
+$user = $_SESSION['user'];
+$action = $_GET['action'] ?? '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     if ($action === 'list') {
@@ -44,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
         $localItems = [];
         foreach ($items as $item) {
-            if ($isGuest || $item['pincode'] === $user['pincode']) {
+            if ($item['pincode'] === $user['pincode']) {
                 // Find owner stats
                 $owner = null;
                 foreach($users as $u) {

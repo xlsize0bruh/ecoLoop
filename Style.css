@@ -1,0 +1,689 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    zoom: 1.04;
+}
+
+@media screen and (max-width: 1600px) and (min-height: 700px) {
+    body {
+        zoom: 0.92;
+    }
+}
+
+body {
+    font-family: 'Outfit', sans-serif;
+    background-image: url('Resolving_grain_when_zoomed_2K_20261002223631.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    color: white;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+
+/* =========================
+   MAIN PAGE
+   ========================= */
+
+.page-container {
+    position: relative;
+    z-index: 2;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    height: 100vh;
+    min-height: 0;
+
+    padding: 2% 4%;
+}
+
+
+/* =========================
+   TOP NAV
+   ========================= */
+
+.top-nav {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+
+    flex-shrink: 0;
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.nav-link {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1rem;
+    transition: opacity 0.2s;
+}
+
+.nav-link:hover {
+    opacity: 0.8;
+}
+
+.nav-btn {
+    color: #051F20;
+    background-color: white;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 8px 24px;
+    border-radius: 20px;
+    transition: transform 0.2s, background-color 0.2s;
+}
+
+.nav-btn:hover {
+    transform: scale(1.05);
+    background-color: #DAF1DE;
+}
+
+
+/* =========================
+   HERO SECTION
+   ========================= */
+
+.top-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+
+    margin-top: 2vh;
+    padding: 40px 20px;
+
+    flex-shrink: 0;
+
+    background:
+        radial-gradient(ellipse at center,
+            rgba(0, 0, 0, 0.45) 0%,
+            rgba(0, 0, 0, 0.2) 40%,
+            rgba(0, 0, 0, 0) 70%);
+}
+
+.top-section h1 {
+    font-size: 3.5rem;
+    font-weight: 400;
+    line-height: 1.2;
+
+    margin-bottom: 20px;
+
+    letter-spacing: -1px;
+
+    text-shadow:
+        0 4px 15px rgba(0, 0, 0, 0.7),
+        0 0 30px rgba(0, 0, 0, 0.5);
+}
+
+
+/* =========================
+   INLINE ICON
+   ========================= */
+
+.inline-icon {
+    display: inline-block;
+
+    width: 60px;
+    height: 35px;
+
+    background-image: url('favicon.png');
+    background-size: 50%;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    background-color: rgba(22, 56, 50, 0.6);
+
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+
+    border-radius: 8px;
+
+    vertical-align: middle;
+
+    margin: 0 8px;
+
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+
+/* =========================
+   HERO PARAGRAPH
+   ========================= */
+
+.top-section p {
+    font-size: 1rem;
+    font-weight: 400;
+
+    max-width: 650px;
+
+    line-height: 1.6;
+
+    margin-bottom: 30px;
+
+    color: #ffffff;
+
+    text-shadow:
+        0 2px 10px rgba(0, 0, 0, 0.8),
+        0 0 20px rgba(0, 0, 0, 0.6);
+}
+
+
+/* =========================
+   PRIMARY BUTTON
+   ========================= */
+
+.primary-btn {
+    display: inline-flex;
+    align-items: center;
+
+    background-color: white;
+    color: #051F20;
+
+    padding: 6px 6px 6px 24px;
+
+    border-radius: 30px;
+
+    text-decoration: none;
+
+    font-weight: 600;
+    font-size: 0.95rem;
+
+    letter-spacing: 1.5px;
+
+    transition: letter-spacing 0.3s ease;
+}
+
+.primary-btn:hover {
+    letter-spacing: 5px;
+}
+
+.btn-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: #051F20;
+    color: white;
+
+    width: 36px;
+    height: 36px;
+
+    border-radius: 12px;
+
+    margin-left: 15px;
+
+    font-size: 1.1rem;
+}
+
+
+/* =========================
+   BOTTOM GLASS CARD
+   ========================= */
+
+.bottom-glass-card {
+    background:
+        linear-gradient(135deg,
+            rgba(218, 241, 222, 0.35),
+            rgba(142, 182, 155, 0.15));
+
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+
+    border-radius: 24px;
+
+    border: 1px solid rgba(255, 255, 255, 0.25);
+
+    padding: 30px 40px 0 40px;
+
+    display: flex;
+    flex-direction: column;
+
+    overflow: hidden;
+
+    position: relative;
+
+    box-shadow:
+        0 20px 40px rgba(0, 0, 0, 0.3);
+
+    /*
+       IMPORTANT:
+       Prevent the flex container from shrinking
+       this card on shorter viewports.
+    */
+    height: 45vh;
+    min-height: 45vh;
+    flex-shrink: 0;
+}
+
+
+/* =========================
+   FOOTER TOP
+   ========================= */
+
+.footer-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    font-size: 0.75rem;
+
+    color: #ffffff;
+
+    margin-bottom: 40px;
+
+    opacity: 0.8;
+
+    flex-shrink: 0;
+}
+
+.footer-top .line {
+    flex-grow: 1;
+
+    height: 1px;
+
+    background-color: rgba(255, 255, 255, 0.3);
+
+    margin: 0 20px;
+}
+
+
+/* =========================
+   FOOTER NAV
+   ========================= */
+
+.footer-nav {
+    display: flex;
+    justify-content: space-between;
+
+    margin-bottom: auto;
+
+    position: relative;
+    z-index: 10;
+
+    flex-shrink: 0;
+}
+
+.footer-nav a {
+    color: white;
+    text-decoration: none;
+
+    font-size: 1.15rem;
+    font-weight: 600;
+
+    letter-spacing: 0.5px;
+
+    position: relative;
+
+    padding-bottom: 4px;
+}
+
+.footer-nav a::after {
+    content: '';
+
+    position: absolute;
+
+    width: 0;
+    height: 2px;
+
+    bottom: 0;
+    left: 0;
+
+    background-color: white;
+
+    transition: width 0.3s ease;
+}
+
+.footer-nav a:hover::after {
+    width: 100%;
+}
+
+
+/* =========================
+   HUGE ECOLOOP TEXT
+   ========================= */
+
+.huge-footer-title {
+    font-family: 'Raleway', sans-serif;
+
+    /*
+       Keep the original sizing.
+       Do NOT change this based on viewport width.
+    */
+    font-size: calc((100vw - 80px) * 0.198);
+
+    font-weight: 870;
+
+    color: white;
+
+    text-align: center;
+
+    line-height: 0.75;
+
+    letter-spacing: -0.04em;
+
+    margin-top: auto;
+
+    transform: translateY(4%);
+
+    user-select: none;
+    pointer-events: none;
+
+    white-space: nowrap;
+
+    flex-shrink: 0;
+}
+
+
+/*
+   IMPORTANT:
+   The old max-width:1600px rule has been removed.
+
+   It was changing the EcoLoop text specifically
+   on narrower CSS viewports.
+*/
+
+
+/* =========================
+   LOGIN MODAL
+   ========================= */
+
+.modal-overlay {
+    display: none;
+
+    position: fixed;
+
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    justify-content: center;
+    align-items: center;
+
+    padding: 20px;
+
+    z-index: 100;
+
+    background: rgba(0, 0, 0, 0.6);
+
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+.modal-card {
+    background:
+        linear-gradient(135deg,
+            rgba(218, 241, 222, 0.35),
+            rgba(142, 182, 155, 0.15));
+
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+
+    border-radius: 24px;
+
+    border: 1px solid rgba(255, 255, 255, 0.25);
+
+    width: 100%;
+    max-width: 900px;
+
+    box-shadow:
+        0 20px 40px rgba(0, 0, 0, 0.3);
+
+    position: relative;
+
+    color: white;
+
+    overflow: hidden;
+}
+
+.modal-split {
+    display: flex;
+    flex-direction: row;
+
+    min-height: 500px;
+}
+
+.modal-image {
+    flex: 1;
+    max-width: 45%;
+}
+
+.modal-image img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    display: block;
+}
+
+.modal-form-container {
+    flex: 1;
+
+    padding: 50px 40px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    text-align: center;
+}
+
+
+/* =========================
+   CLOSE BUTTON
+   ========================= */
+
+.close-btn {
+    position: absolute;
+
+    top: 20px;
+    right: 20px;
+
+    background: none;
+    border: none;
+
+    color: white;
+
+    font-size: 2rem;
+
+    cursor: pointer;
+
+    line-height: 1;
+
+    opacity: 0.6;
+
+    transition: opacity 0.2s;
+}
+
+.close-btn:hover {
+    opacity: 1;
+}
+
+
+/* =========================
+   AUTH HEADER
+   ========================= */
+
+.auth-header {
+    margin-bottom: 30px;
+}
+
+.auth-logo {
+    width: 40px;
+    height: 40px;
+
+    background-color: rgba(43, 71, 62, 0.8);
+
+    border-radius: 12px;
+
+    padding: 8px;
+
+    margin-bottom: 20px;
+
+    border: 1px solid rgba(255, 255, 255, 0.1);
+
+    object-fit: contain;
+}
+
+.auth-header h2 {
+    font-size: 2.2rem;
+
+    font-weight: 600;
+
+    margin-bottom: 8px;
+
+    color: white;
+}
+
+.auth-header p {
+    font-size: 1rem;
+
+    color: rgba(255, 255, 255, 0.8);
+
+    font-weight: 300;
+}
+
+
+/* =========================
+   AUTH FORM
+   ========================= */
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+
+    gap: 20px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+
+    text-align: left;
+}
+
+.input-group label {
+    font-size: 0.9rem;
+
+    color: white;
+
+    margin-bottom: 8px;
+    margin-left: 2px;
+
+    font-weight: 600;
+}
+
+.input-group input {
+    background: rgba(255, 255, 255, 0.05);
+
+    border: 1px solid rgba(255, 255, 255, 0.15);
+
+    padding: 15px 20px;
+
+    border-radius: 14px;
+
+    color: white;
+
+    font-family: inherit;
+    font-size: 1rem;
+
+    outline: none;
+
+    transition: border-color 0.3s ease;
+}
+
+.input-group input:focus {
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+.input-group input::placeholder {
+    color: rgba(255, 255, 255, 0.3);
+}
+
+
+/* =========================
+   AUTH SUBMIT
+   ========================= */
+
+.auth-submit {
+    justify-content: center;
+
+    margin-top: 15px;
+
+    width: 100%;
+
+    padding: 12px 12px 12px 30px;
+
+    gap: 15px;
+
+    letter-spacing: normal !important;
+}
+
+.auth-submit:hover {
+    letter-spacing: normal !important;
+}
+
+.auth-submit .btn-icon {
+    width: 34px;
+    height: 34px;
+
+    border-radius: 50%;
+
+    margin-left: 0;
+}
+
+
+/* =========================
+   AUTH FOOTER
+   ========================= */
+
+.auth-footer {
+    margin-top: 30px;
+
+    font-size: 0.9rem;
+
+    color: #e0e0e0;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 10px;
+}
+
+.auth-footer a {
+    color: #8EB69B;
+
+    text-decoration: none;
+
+    font-weight: 600;
+
+    transition: color 0.2s ease;
+}
+
+.auth-footer a:hover {
+    color: #DAF1DE;
+}

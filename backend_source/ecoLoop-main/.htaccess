@@ -1,0 +1,7 @@
+Options -Indexes
+<FilesMatch "^(manage|router)\.php$|^\.|^(Dockerfile|README)">
+    Require all denied
+</FilesMatch>
+RewriteEngine On
+RewriteRule ^(data|tests|docs|\.git)(/|$) - [F,L]
+RewriteRule ^api/(db|loop-core)\.php$ - [F,L]

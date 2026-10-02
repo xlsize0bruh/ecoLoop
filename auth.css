@@ -1,0 +1,123 @@
+.auth-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    position: relative;
+    z-index: 2;
+}
+
+.glass-card {
+    background: linear-gradient(135deg, rgba(218, 241, 222, 0.2), rgba(142, 182, 155, 0.1));
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.836);
+    padding: 50px 40px;
+    width: 100%;
+    max-width: 450px;
+    box-shadow: 0 20px 40px rgba(241, 241, 241, 0.3);
+    text-align: center;
+}
+
+.auth-header {
+    margin-bottom: 30px;
+}
+
+.auth-logo {
+    width: 55px;
+    height: 55px;
+    background-color: rgba(22, 56, 50, 0.6);
+    backdrop-filter: blur(5px);
+    border-radius: 12px;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    object-fit: contain;
+}
+
+.auth-header h2 {
+    font-size: 2rem;
+    font-weight: 500;
+    margin-bottom: 5px;
+    color: white;
+}
+
+.auth-header p {
+    font-size: 0.95rem;
+    color: #e0e0e0;
+    font-weight: 300;
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.input-group label {
+    font-size: 0.85rem;
+    color: #f0f0f0;
+    margin-bottom: 8px;
+    font-weight: 500;
+    margin-left: 5px;
+}
+
+.input-group input {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 14px 20px;
+    border-radius: 12px;
+    color: white;
+    font-family: inherit;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s ease, background 0.3s ease;
+}
+
+.input-group input:focus {
+    border-color: #8EB69B;
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.input-group input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.auth-submit {
+    justify-content: center;
+    margin-top: 10px;
+    width: 100%;
+}
+
+.auth-footer {
+    margin-top: 30px;
+    font-size: 0.9rem;
+    color: #e0e0e0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.auth-footer a {
+    color: #8EB69B;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s ease;
+}
+
+.auth-footer a:hover {
+    color: #DAF1DE;
+}
+
+.back-link {
+    font-size: 0.85rem;
+    opacity: 0.8;
+}

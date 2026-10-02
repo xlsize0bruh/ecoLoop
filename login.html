@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - EcoLoop</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:ital,wght@0,300;0,400;0,500;0,600;0,700;0,900;1,400&display=swap" rel="stylesheet">
+  <link rel="icon" href="/favicon.png" type="image/png">
+  <style>
+    body.login-page {
+        margin: 0;
+        padding: 0;
+        background-image: url('e1497998-19fd-4f83-9bfb-a7728c858aa6.png');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        font-family: 'Outfit', sans-serif;
+    }
+    .login-container {
+        width: 100%;
+        max-width: 420px;
+        margin-right: 12%; /* Place it in the dark green space on the right */
+    }
+    .login-card {
+        position: relative;
+        background: rgba(255, 255, 255, 0.05); /* Extremely subtle glass effect */
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border-radius: 24px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 50px 40px;
+        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
+        text-align: center;
+        color: white;
+    }
+    .login-close-btn {
+        position: absolute;
+        top: 20px;
+        right: 25px;
+        background: none;
+        border: none;
+        color: rgba(255, 255, 255, 0.5);
+        font-size: 1.5rem;
+        cursor: pointer;
+        text-decoration: none;
+        transition: color 0.2s;
+    }
+    .login-close-btn:hover {
+        color: white;
+    }
+    .login-logo {
+        width: 32px;
+        height: 32px;
+        background-color: rgba(43, 71, 62, 0.8);
+        border-radius: 10px;
+        padding: 10px;
+        margin-bottom: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        object-fit: contain;
+    }
+    .login-header h2 {
+        font-size: 2rem;
+        font-weight: 600;
+        margin-bottom: 8px;
+        margin-top: 0;
+    }
+    .login-header p {
+        font-size: 0.95rem;
+        color: rgba(255, 255, 255, 0.8);
+        font-weight: 300;
+        margin-bottom: 35px;
+    }
+    .login-form {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        text-align: left;
+    }
+    .login-input-group label {
+        display: block;
+        font-size: 0.9rem;
+        font-weight: 600;
+        margin-bottom: 8px;
+        margin-left: 2px;
+    }
+    .login-input-group input {
+        width: 100%;
+        box-sizing: border-box;
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        padding: 14px 20px;
+        border-radius: 12px;
+        color: white;
+        font-family: inherit;
+        font-size: 1rem;
+        outline: none;
+        transition: border-color 0.3s;
+    }
+    .login-input-group input:focus {
+        border-color: white;
+    }
+    .login-input-group input::placeholder {
+        color: rgba(255, 255, 255, 0.3);
+    }
+    .login-submit-btn {
+        margin-top: 15px;
+        background: white;
+        color: #051F20;
+        border: none;
+        padding: 12px 12px 12px 30px;
+        border-radius: 30px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 15px;
+        transition: transform 0.2s;
+    }
+    .login-submit-btn:hover {
+        transform: scale(1.02);
+    }
+    .login-submit-icon {
+        background-color: #051F20;
+        color: white;
+        width: 34px;
+        height: 34px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        font-size: 1.2rem;
+    }
+    .login-footer {
+        margin-top: 30px;
+        font-size: 0.95rem;
+        color: rgba(255, 255, 255, 0.7);
+    }
+    .login-footer a {
+        color: #8EB69B;
+        text-decoration: none;
+        font-weight: 600;
+    }
+  </style>
+</head>
+<body class="login-page">
+  <div class="login-container">
+    <div class="login-card">
+      <a href="index.html" class="login-close-btn">&times;</a>
+      
+      <div class="login-header">
+        <img src="favicon.png" alt="EcoLoop Logo" class="login-logo">
+        <h2>Welcome Back</h2>
+        <p>Login to continue to EcoLoop.</p>
+      </div>
+
+      <form class="login-form" onsubmit="event.preventDefault(); window.location.href='index.html';">
+        <div class="login-input-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" placeholder="Enter your email" required>
+        </div>
+        <div class="login-input-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" placeholder="Enter your password" required>
+        </div>
+        <button type="submit" class="login-submit-btn">
+          Login <span class="login-submit-icon">&#x2192;</span>
+        </button>
+      </form>
+
+      <div class="login-footer">
+        Don't have an account? <a href="#">Sign Up</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

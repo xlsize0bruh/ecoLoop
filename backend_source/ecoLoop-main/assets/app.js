@@ -89,12 +89,10 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
     });
 });
 
-if (document.getElementById('logout-btn')) {
-    document.getElementById('logout-btn').addEventListener('click', async () => {
-        await fetch('api/auth.php?action=logout', { method: 'POST' });
-        window.location.href = 'index.php';
-    });
-}
+document.getElementById('logout-btn').addEventListener('click', async () => {
+    await fetch('api/auth.php?action=logout', { method: 'POST' });
+    window.location.href = 'login.php';
+});
 
 async function init() {
     // activate the default (market) tab styling

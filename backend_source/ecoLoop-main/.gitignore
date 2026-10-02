@@ -1,4 +1,4 @@
-﻿/uploads/*
+/uploads/*
 !/uploads/.htaccess
 data/demo/
 data/.lock
@@ -8,4 +8,4 @@ data/.write-*
 .DS_Store
 __pycache__/
 *.pyc
-node_modules/
+

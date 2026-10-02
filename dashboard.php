@@ -1,10 +1,7 @@
 <?php
 session_start();
-if (!isset($_SESSION['user'])) {
-    header("Location: login.php");
-    exit;
-}
-$user = $_SESSION['user'];
+$isGuest = !isset($_SESSION['user']);
+$user = $isGuest ? ['username' => 'Guest', 'pincode' => 'Anywhere'] : $_SESSION['user'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -28,14 +25,22 @@ $user = $_SESSION['user'];
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
+        /* ═══════════════════════════════════
+           EcoLoop — Forest Glass Theme
+           Color Palette:
+             #051F20  Deep forest
+             #163832  Dark teal
+             #2B473E  Muted green
+             #8EB69B  Soft leaf
+             #DAF1DE  Mint highlight
+           ═══════════════════════════════════ */
+
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-
-        /* Subtle scrollbar for main areas */
-        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar { width: 5px; height: 5px; }
         ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #262626; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #404040; }
+        ::-webkit-scrollbar-thumb { background: rgba(142,182,155,0.25); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(142,182,155,0.45); }
 
         @keyframes slideInRight {
             from { transform: translateX(110%); opacity: 0; }
@@ -43,13 +48,231 @@ $user = $_SESSION['user'];
         }
         @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; transform: translateX(20px); } }
         .toast-enter { animation: slideInRight 0.25s cubic-bezier(0.16,1,0.3,1) forwards; }
-        .toast-exit { animation: fadeOut 0.25s ease-out forwards; }
-
+        .toast-exit  { animation: fadeOut 0.25s ease-out forwards; }
         @keyframes pulse-dot { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
         .live-dot { animation: pulse-dot 1.6s ease-in-out infinite; }
+
+        /* — Base — */
+        body {
+            background-color: #F4F6F1;
+            background-image: none !important;
+            font-family: 'Outfit', sans-serif !important;
+            color: #051F20;
+        }
+        body::before { display: none; }
+        ::selection { background: #DAF1DE; color: #051F20; }
+
+        /* — Navbar — */
+        header.border-b {
+            background: #FFFFFF !important;
+            border-bottom: 1px solid #E1E8DB !important;
+            box-shadow: 0 4px 20px rgba(5,31,32,0.03);
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+        }
+
+        /* — Sidebar — */
+        aside {
+            background: #F4F6F1 !important;
+            border-right: 1px solid #E1E8DB !important;
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+        }
+
+        /* — Main content area — */
+        main.flex-1 {
+            background: #F4F6F1 !important;
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+        }
+
+        /* — Tab buttons (sidebar) — */
+        .tab-btn { border-radius: 14px !important; transition: all 0.2s ease !important; color: #163832 !important; }
+        .tab-btn.bg-neutral-900 {
+            background: #FFFFFF !important;
+            color: #051F20 !important;
+            border: 1px solid #E1E8DB;
+            box-shadow: 0 2px 6px rgba(5,31,32,0.04);
+            font-weight: 600;
+        }
+        .tab-btn:hover:not(.bg-neutral-900) {
+            background: rgba(22,56,50,0.04) !important;
+        }
+
+        /* — Nav center pill — */
+        nav[aria-label="EcoLoop sections"] {
+            background: #F4F6F1 !important;
+            border: 1px solid #E1E8DB !important;
+            backdrop-filter: none;
+        }
+        nav[aria-label="EcoLoop sections"] a, nav[aria-label="EcoLoop sections"] span {
+            color: #163832 !important;
+        }
+        nav[aria-label="EcoLoop sections"] span { font-weight: 600; background: #FFFFFF !important; box-shadow: 0 2px 4px rgba(0,0,0,0.03); border-radius: 12px; padding: 4px 12px; }
+
+        /* — Tailwind overrides for cards/containers — */
+        .bg-neutral-950 { background: transparent !important; }
+        .bg-neutral-900\/60, .bg-neutral-900 {
+            background: #FFFFFF !important;
+            border-color: #E1E8DB !important;
+            color: #051F20 !important;
+            box-shadow: 0 2px 8px rgba(5,31,32,0.02);
+            backdrop-filter: none;
+        }
+        .bg-neutral-800 {
+            background: #F9FBF8 !important;
+            border-color: #E1E8DB !important;
+            color: #051F20 !important;
+        }
+        .bg-neutral-700 { background: #E8F0E5 !important; }
+        .border-neutral-900, .border-neutral-800, .border-neutral-700 { border-color: #E1E8DB !important; }
+        
+        /* Typography overrides */
+        .text-neutral-100, .text-white { color: #051F20 !important; }
+        .text-neutral-200 { color: #163832 !important; }
+        .text-neutral-300 { color: #2B473E !important; }
+        .text-neutral-400 { color: #4A665B !important; }
+        .text-neutral-500 { color: #698276 !important; }
+        .text-neutral-600 { color: #8AA094 !important; }
+        .text-neutral-700 { color: #A8BDB1 !important; }
+
+        /* — Buttons — */
+        .bg-white {
+            background: #163832 !important;
+            color: #FFFFFF !important;
+        }
+        .bg-white:hover, .hover\:bg-neutral-200:hover {
+            background: #051F20 !important;
+            color: #FFFFFF !important;
+        }
+        .border-white\/10 { border-color: #E1E8DB !important; }
+
+        /* — Item cards — */
+        .group.bg-neutral-900\/60 {
+            background: #FFFFFF !important;
+            border: 1px solid #E1E8DB !important;
+            border-radius: 20px !important;
+            overflow: hidden;
+            transition: all 0.35s cubic-bezier(0.4,0,0.2,1) !important;
+            box-shadow: 0 4px 15px rgba(5,31,32,0.02);
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+        }
+        .group.bg-neutral-900\/60:hover {
+            border-color: #8EB69B !important;
+            box-shadow: 0 12px 30px rgba(5,31,32,0.06);
+            transform: translateY(-3px);
+        }
+        .group .h-44 {
+            background: #F4F6F1 !important;
+        }
+        /* Image placeholder color in cards */
+        .text-emerald-400\/30 { color: #8EB69B !important; }
+        
+        /* Badges */
+        .bg-emerald-400\/10 { background: #DAF1DE !important; color: #163832 !important; }
+        .text-emerald-400 { color: #163832 !important; }
+        .bg-blue-400\/10 { background: #E0EFFF !important; color: #0A3D73 !important; }
+        .text-blue-400 { color: #0A3D73 !important; }
+
+        /* — Request trade button on cards — */
+        .group button[onclick^="proposeTrade"] {
+            background: #F4F6F1 !important;
+            color: #163832 !important;
+            border: 1px solid #E1E8DB;
+            border-radius: 12px !important;
+            transition: all 0.2s ease !important;
+            font-weight: 600;
+        }
+        .group button[onclick^="proposeTrade"]:hover {
+            background: #163832 !important;
+            color: #FFFFFF !important;
+            border-color: #163832;
+        }
+
+        /* — Inputs — */
+        input[type="text"], input[type="number"], textarea, select {
+            background: #FFFFFF !important;
+            border: 1px solid #CFD8C9 !important;
+            border-radius: 14px !important;
+            color: #051F20 !important;
+            transition: border-color 0.3s, box-shadow 0.3s !important;
+        }
+        input[type="text"]:focus, input[type="number"]:focus, textarea:focus, select:focus {
+            border-color: #8EB69B !important;
+            box-shadow: 0 0 0 3px rgba(142,182,155,0.15) !important;
+            outline: none !important;
+        }
+        input::placeholder, textarea::placeholder { color: #9AAB9F !important; }
+
+        /* — Modals — */
+        .bg-black\/70, .bg-black\/80 {
+            background: rgba(5,31,32,0.4) !important;
+            backdrop-filter: blur(4px);
+        }
+        #add-item-modal > div, #trade-modal > div, #rating-modal > div, #trade-chat-modal #chat-panel {
+            background: #FFFFFF !important;
+            border: 1px solid #E1E8DB !important;
+            box-shadow: 0 20px 50px rgba(5,31,32,0.1) !important;
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+        }
+
+        /* — Profile card — */
+        #tab-profile .bg-neutral-900\/60 {
+            background: #FFFFFF !important;
+            border: 1px solid #E1E8DB !important;
+            border-radius: 20px !important;
+        }
+
+        /* — Stat boxes — */
+        #tab-profile .bg-neutral-950 {
+            background: #F4F6F1 !important;
+            border: 1px solid #E1E8DB !important;
+            border-radius: 16px !important;
+        }
+
+        /* — Champion cards — */
+        #champion-list > div {
+            border-radius: 16px !important;
+            background: #FFFFFF !important;
+            border: 1px solid #E1E8DB !important;
+        }
+
+        /* — Toast — */
+        .toast-enter {
+            background: #FFFFFF !important;
+            border: 1px solid #E1E8DB !important;
+            color: #051F20 !important;
+            box-shadow: 0 8px 30px rgba(5,31,32,0.1) !important;
+            backdrop-filter: none !important;
+        }
+
+        /* — Emerald dot — */
+        .bg-emerald-400\/80 { background: #2B473E !important; }
+
+        /* — Skeleton loaders — */
+        .animate-pulse {
+            background: #E8EFE5 !important;
+            border-color: #E1E8DB !important;
+        }
+
+        /* — Divider lines — */
+        .h-px { background: #E1E8DB !important; }
+        .border-t { border-top-color: #E1E8DB !important; }
+        .border-b { border-bottom-color: #E1E8DB !important; }
+
+        /* — Login button for guests — */
+        a[href="index.php"].bg-white {
+            border-radius: 20px !important;
+            padding: 6px 20px !important;
+            font-weight: 600 !important;
+            letter-spacing: 0.3px;
+        }
     </style>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
 </head>
-<body class="bg-neutral-950 text-neutral-100 font-sans antialiased h-screen overflow-hidden flex flex-col selection:bg-white selection:text-neutral-950">
+<body class="text-neutral-100 font-sans antialiased h-screen overflow-hidden flex flex-col selection:bg-white selection:text-neutral-950">
 
     <!-- Toast Container -->
     <div id="toast-container" class="fixed top-4 right-4 z-[100] flex flex-col gap-2 pointer-events-none"></div>
@@ -89,9 +312,13 @@ $user = $_SESSION['user'];
                             </div>
                         </div>
                     </div>
+                    <?php if ($isGuest): ?>
+                        <a href="index.php" class="bg-white text-black px-4 py-2 rounded-lg text-sm font-semibold ml-2 hover:bg-neutral-200 transition-colors">Login</a>
+                    <?php else: ?>
                     <button id="logout-btn" class="text-neutral-500 hover:text-white hover:bg-neutral-900 w-9 h-9 rounded-lg flex items-center justify-center transition-colors" title="Logout">
                         <i class="fa-solid fa-right-from-bracket text-sm"></i>
                     </button>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
@@ -152,24 +379,31 @@ $user = $_SESSION['user'];
                         <h2 class="text-xl font-semibold tracking-tight">My Items</h2>
                         <p class="text-sm text-neutral-500 mt-0.5">Items you've listed for trade</p>
                     </div>
-                    <button onclick="openItemModal()" class="bg-white hover:bg-neutral-200 text-neutral-950 px-4 py-2.5 rounded-xl text-sm font-semibold transition-colors flex items-center gap-2">
+                    <button onclick="openItemModal()" class="bg-white hover:bg-neutral-200 text-neutral-950 px-4 py-2.5 rounded-xl text-sm font-semibold transition-colors flex items-center gap-2" <?php if($isGuest) echo 'disabled style="opacity:0.5;cursor:not-allowed;"'; ?>>
                         <i class="fa-solid fa-plus text-xs"></i> Add Item
                     </button>
                 </div>
-                <div id="my-items-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 pb-20"></div>
+                <div id="my-items-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 pb-20">
+                    <?php if($isGuest) echo '<div class="col-span-full py-10 text-center bg-neutral-900/40 rounded-xl border border-neutral-800"><h3>No data, please <a href="index.php" style="color:#DAF1DE; text-decoration:underline;">login</a> first.</h3></div>'; ?>
+                </div>
             </div>
 
             <!-- Trades -->
             <div id="tab-trades" class="tab-content hidden">
                 <h2 class="text-xl font-semibold tracking-tight mb-1">My Trades</h2>
                 <p class="text-sm text-neutral-500 mb-7">Track and manage your active trades</p>
-                <div class="space-y-3" id="trades-list"></div>
+                <div class="space-y-3" id="trades-list">
+                    <?php if($isGuest) echo '<div class="py-10 text-center bg-neutral-900/40 rounded-xl border border-neutral-800"><h3>No data, please <a href="index.php" style="color:#DAF1DE; text-decoration:underline;">login</a> first.</h3></div>'; ?>
+                </div>
             </div>
 
             <!-- Profile -->
             <div id="tab-profile" class="tab-content hidden">
                 <h2 class="text-xl font-semibold tracking-tight mb-7">My Profile</h2>
                 <div class="bg-neutral-900/60 border border-neutral-800 p-8 rounded-2xl max-w-2xl">
+                    <?php if($isGuest): ?>
+                        <div class="py-10 text-center"><h3>No data, please <a href="index.php" style="color:#DAF1DE; text-decoration:underline;">login</a> first.</h3></div>
+                    <?php else: ?>
                     <div class="flex items-center gap-5 mb-8">
                         <div class="w-16 h-16 bg-neutral-800 border border-neutral-700 rounded-2xl flex items-center justify-center text-2xl font-bold">
                             <?php echo htmlspecialchars(strtoupper(substr($user['username'], 0, 1))); ?>
@@ -196,6 +430,7 @@ $user = $_SESSION['user'];
                             <div class="text-2xl font-bold text-neutral-500" id="prof-neg"><i class="fa-solid fa-spinner fa-spin text-sm text-neutral-600"></i></div>
                         </div>
                     </div>
+                    <?php endif; ?>
                 </div>
             </div>
 

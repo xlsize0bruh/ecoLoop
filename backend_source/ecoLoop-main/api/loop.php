@@ -2,10 +2,8 @@
 session_start();
 require_once __DIR__ . '/loop-core.php';
 header('Content-Type: application/json'); header('Cache-Control: no-store');
-$isGuest = !isset($_SESSION['user']);
-if ($isGuest && $_SERVER['REQUEST_METHOD'] === 'POST') { http_response_code(401); apiError('Please sign in.'); }
-$u = $isGuest ? ['id'=>'guest','username'=>'Guest','pincode'=>'Anywhere','role'=>'member','positive_reviews'=>0,'negative_reviews'=>0] : $_SESSION['user']; 
-$s=loopState(); expireKits($s);
+if (!isset($_SESSION['user'])) { http_response_code(401); apiError('Please sign in.'); }
+$u=$_SESSION['user']; $s=loopState(); expireKits($s);
 try {
     $result=[];
     if ($_SERVER['REQUEST_METHOD']==='POST') {
