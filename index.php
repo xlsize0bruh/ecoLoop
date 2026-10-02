@@ -1,6 +1,6 @@
 <?php
 session_start();
-if (isset($_SESSION['user'])) {
+if (isset($_SESSION['user']) && !isset($_GET['home'])) {
     header("Location: dashboard.php");
     exit;
 }

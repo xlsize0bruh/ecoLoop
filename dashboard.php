@@ -281,7 +281,7 @@ $user = $isGuest ? ['username' => 'Guest', 'pincode' => 'Anywhere'] : $_SESSION[
     <header class="border-b border-neutral-900 bg-neutral-950 z-20 shrink-0">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 w-full">
             <div class="flex justify-between items-center h-16">
-                <a href="dashboard.php" class="flex items-center gap-2.5" aria-label="EcoLoop marketplace">
+                <a href="index.php?home=1" class="flex items-center gap-2.5" aria-label="EcoLoop marketplace">
                     <img src="assets/favicon.svg" alt="" class="w-8 h-8 rounded-[9px]">
                     <span class="font-semibold text-[15px] tracking-tight hidden sm:block">EcoLoop</span>
                 </a>
