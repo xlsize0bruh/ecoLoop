@@ -28,7 +28,9 @@ function showView(view) {
     if (view === 'organiser' && !state?.organiser) return;
     currentView = view;
     document.querySelectorAll('.view').forEach(el => el.hidden = el.id !== 'view-' + view);
-    document.querySelectorAll('.topbar [data-view]').forEach(el => el.classList.toggle('active', el.dataset.view === view));
+    document.querySelectorAll('.topbar [data-view]:not(.section-link)').forEach(el => el.classList.toggle('active', el.dataset.view === view));
+    const projectsSection = document.querySelector('.topbar .section-link[data-view]');
+    if (projectsSection) projectsSection.classList.toggle('active', ['studio','projects','credits','supply','organiser'].includes(view));
     history.replaceState(null, '', '#' + view); window.scrollTo({top:0, behavior:'smooth'});
 }
 function addRequirement(value = {}) {
@@ -156,3 +158,4 @@ $('refresh-data').addEventListener('click',async()=>{try{state=await api();rende
 const deadline=new Date();deadline.setDate(deadline.getDate()+7);$('project-deadline').value=deadline.toLocaleDateString('en-CA');$('project-deadline').min=new Date().toLocaleDateString('en-CA');
 useTemplate('desk');
 (async()=>{try{state=await api();render();fillMaterial();const view=location.hash.slice(1);if(['studio','projects','credits','supply','organiser'].includes(view))showView(view);}catch(error){notify(error.message,true);$('inventory-grid').innerHTML=empty('Unable to load the community. Use Refresh to try again.');}})();
+
