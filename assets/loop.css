@@ -145,21 +145,11 @@ p {
     letter-spacing:-.04em;
 }
 
-.brand-icon {
-    background:#eceee7;
-    color:#101010;
-    width:27px;
-    height:27px;
-    display:grid;
-    place-items:center;
-    border-radius:7px;
-    font-size:23px;
-}
-
-.brand-divider {
-    margin:0 7px;
-    font-weight:400;
-    color:#555;
+.brand-logo {
+    width:32px;
+    height:32px;
+    border-radius:9px;
+    flex:none;
 }
 
 .topbar nav {
@@ -176,6 +166,15 @@ p {
     position:relative;
 }
 
+.topbar nav a.section-link,.topbar nav button.section-link {
+    padding:8px 13px;
+    border-radius:9px;
+}
+
+.topbar nav .section-link.active {
+    background:#262626;
+}
+
 .topbar nav .active {
     color:var(--text);
 }
@@ -188,6 +187,10 @@ p {
     bottom:0;
     left:0;
     right:0;
+}
+
+.topbar nav .section-link.active:after {
+    display:none;
 }
 
 .account {
@@ -1782,3 +1785,4 @@ dialog .checkbox {
         scroll-behavior:auto!important;
     }
 }
+
