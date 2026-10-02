@@ -1,21 +1,15 @@
-name: Python and PHP checks
+name: PHP and JavaScript checks
 on: [push, pull_request]
-permissions:
-  contents: read
 jobs:
-  test:
+  verify:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: shivammathur/setup-php@v2
         with:
-          python-version: '3.12'
-      - name: Check Python syntax
-        run: python -m compileall -q app.py bridge.py manage.py wsgi.py ecoloop tests
-      - name: Require and lint PHP gateway
-        run: |
-          php --version
-          php -l public/index.php
-          php -l php-config.example.php
-      - name: Test JSON workflows and both HTTP entry points
-        run: python -m unittest discover -s tests -v
+          php-version: '8.4'
+          extensions: pdo_sqlite
+      - run: find . -name '*.php' -print0 | xargs -0 -n1 php -l
+      - run: node --check assets/app.js && node --check assets/loop.js
+      - run: php tests/workflows.php
+      - run: python3 tests/integration.py

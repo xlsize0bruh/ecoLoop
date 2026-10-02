@@ -1,162 +1,120 @@
-# EcoLoop
+# EcoTrade + EcoLoop
 
 **Trade what you have. Build what you need.**
 
-EcoLoop combines a community marketplace with a project studio. Students describe a project and its material requirements, match them to marketplace stock, and request a complete kit. Material owners approve their contribution and earn credits when the maker collects the kit. Those credits can be used for other community items.
+The original EcoTrade marketplace, sign-in, item management, direct barter, private trade chat, profile and champions screens, with a new **Project Studio** in the same PHP application.
 
-## Stack
+The design keeps EcoTrade's charcoal backgrounds, Inter typography, compact buttons and restrained borders. EcoLoop adds warm material illustrations, selective lime accents, a responsive three-column project builder, supplier payout cards, a credit balance and a community collection desk. No frontend framework, Node server or Python application is required.
 
-- **Python 3.10+**: accounts, marketplace, matching, credits, messages and organiser workflows.
-- **HTML + CSS + browser JavaScript**: the responsive interface. JavaScript runs in the browser; no build tool or JavaScript server is needed.
-- **PHP 8.1+**: an optional front controller that executes the Python application for each request.
-- **JSON files**: all application records, with process locks and atomic writes. Uploaded photos are image files alongside the JSON store.
+## Run
 
-The Python application has no external runtime packages and starts with fresh data. The PHP route requires Python and `proc_open` on the same host. A PHP-only host that cannot execute Python will not run this version.
+Requirements: **PHP 8.2+ with PDO SQLite** and a writable storage directory. The code is tested on PHP 8.4. Browser styling on the original EcoTrade pages uses the existing Tailwind CDN, Font Awesome CDN and Google Fonts; internet access is needed for those assets. The new Studio's CSS and illustrations are local.
 
-## Try it locally
+From the repository root:
 
-From the folder containing `app.py`:
-
-```bash
-python app.py --demo
+```sh
+php -S 127.0.0.1:8000 router.php
 ```
 
-Open **http://127.0.0.1:3000**. On systems that use `python3`, substitute `python3` in the commands. On Windows, `py` also works.
+Open `http://127.0.0.1:8000`. This starts a fresh community. Register accounts through the original sign-in page, using an eight-character-or-longer password and a six-digit pincode. Project materials match only within the same pincode.
 
-The demo has five sample accounts and uses `storage/demo.json` with separate demo uploads. Use the account switcher to try the maker, suppliers and organiser. It does not read or change the live community file.
+The SQLite database defaults to an **ecoloop-storage directory beside the repository**, outside its web root. Override this with the absolute environment variable `ECOLOOP_DATA_DIR`. Store it on persistent local storage and back it up. The web process must be able to create/write this directory and `uploads/`. Runtime accounts, balances and uploads are never committed to Git.
 
-### Demo walkthrough
+To appoint an organiser, after registering the account:
 
-1. Choose **Pratyush** and open the Desktop organiser project.
-2. Contribute useful goods worth 60 credits through **My credits**.
-3. As **Community Organiser**, confirm physical receipt and accept the contribution.
-4. As **Pratyush**, match the project and request the 60-credit kit.
-5. As **Asha**, **Kabir** and **Mira**, approve the materials.
-6. As the organiser, check each material in. As Pratyush, confirm complete-kit collection.
-7. The suppliers receive 20, 15 and 25 credits. They can spend those credits on other items.
-8. Mark the project finished and enter the quantities used. Usable leftovers return to the marketplace.
-
-## Start a fresh community
-
-Copy `.env.example` to `.env`. Windows PowerShell:
-
-```powershell
-Copy-Item .env.example .env
+```sh
+php manage.php organiser "Account username"
 ```
+
+This is a server-side CLI operation; members cannot promote themselves through the API. Run it with the same data directory/environment as the website.
+
+## Isolated demonstration
 
 Linux/macOS:
 
-```bash
-cp .env.example .env
+```sh
+export ECOLOOP_DEMO=1
+php manage.php demo
+php -S 127.0.0.1:8000 router.php
 ```
 
-Create an organiser and start the application:
+Windows PowerShell:
 
-```bash
-python manage.py setup
-python app.py
+```powershell
+$env:ECOLOOP_DEMO='1'
+php manage.php demo
+php -S 127.0.0.1:8000 router.php
 ```
 
-The setup command asks for the organiser's name, email and password locally. Password entry is hidden. Other members register through the website. Run setup again locally if another organiser is needed; ordinary registrations always create members.
+Open `login.php` and select **Enter demo community**. A labelled role selector lets you try Pratyush, Asha, Kabir, Mira and the community organiser. Demo data uses `demo.sqlite`; normal mode uses `community.sqlite`. The role-switch endpoint returns 404 outside demo mode. Never enable demo mode on a real community deployment. Seeding refuses to overwrite existing accounts.
 
-## Run through PHP
+### Full demo journey
 
-With Python and PHP installed:
+1. As Pratyush, choose Desktop organiser and **Find my materials**. It matches a three-sheet cardboard pack (20), three tubes (15), and a fabric-and-string pack (25), supplied by three owners. The total is 60; Pratyush initially has zero credits.
+2. Switch to Community organiser. Open **Organiser** in the footer. Accept the seeded geometry box (20), sketch pad (15) and novel (25), explicitly confirming physical intake. These are staged demo confirmations, not claims that a real exchange happened.
+3. Switch to Pratyush, match again and request the kit. Sixty credits and the exact quantities are held for up to 48 hours, or until the chosen collection date if sooner.
+4. Switch to Asha, Kabir and Mira in turn. Each opens **My projects** and approves their own materials at the agreed value.
+5. As organiser, check every material in after verifying condition, quantity and dimensions.
+6. As Pratyush, confirm complete-kit collection. The single transaction pays Asha 20, Kabir 15 and Mira 25. Retrying collection cannot pay twice.
+7. Each supplier opens **My credits**, sees the earned balance and requests a useful item from the community shelf. The organiser confirms handover; the matching credits are retired.
+8. Pratyush records what was made and can reuse the plan or return to the original marketplace to list usable leftovers.
 
-```bash
-python manage.py setup
-php -S 127.0.0.1:8000 -t public public/index.php
+The exhibition template intentionally includes paper that is absent from the demo inventory. Its gap remains visible; an incomplete kit cannot be requested.
+
+## The owner's benefit
+
+Owners receive **choice**, not just recognition: agreed trade credits that can be used for other participating material listings (including single-item project requests) or useful goods on the shared shelf. Direct barter remains available in the unchanged Marketplace journey, and material owners can opt into a voluntary gift instead.
+
+- Creating a listing or proposing a contribution creates **no credits**.
+- An organiser can accept useful goods at the contributor's proposed value, or decline them. This creates shared stock and an equal credit issue. Renegotiate a different valuation with the member and submit a new contribution.
+- Kit settlement transfers existing credits from maker to suppliers. It does not mint additional credits.
+- Shelf handover removes the goods and retires their credit value.
+- Project completion and badges do not earn spendable credits. Credits have no cash conversion or investment promise.
+
+The practical dependency is demand: suppliers must be able to find goods they want. The organiser should only accept useful stock, cap overstocked categories, publish desired contributions and review shelf turnover. If no organiser or physical storage exists, don't issue credits for unsold goods. See [product decisions](docs/DECISIONS.md).
+
+## Matching and collection
+
+Owners first create an ordinary marketplace listing, then choose **Offer materials** in the Studio. They specify a material type, unit, quantity, minimum dimensions, condition, gift/credit preference and value per unit. Project participation is opt-in. Dimensions of packs describe each usable piece; titles/descriptions should state pack contents.
+
+The matcher checks material type, unit, dimensions, condition, local community, owner, available quantity and reservations. Matching is deterministic and exact; it does not invent stock or silently substitute materials. It can split a requirement across suppliers. The user reviews a quote before requesting; changed suppliers, quantities or prices require a fresh quote. A saved draft can be reopened and matched against current inventory.
+
+All supplier approvals are required. Quantities are provisionally held at request time so overlapping requests cannot promise the same goods. Only organisers check materials in; only the maker confirms complete-kit collection. Cancellation/expiry restores credits. Already-received goods remain unavailable until the organiser confirms return. A completed transfer keeps the original source listing locked for direct barter; any unconsumed project quantity stays available to project matching.
+
+## Storage and consistency
+
+EcoTrade's `readJson` / `writeJson` interfaces now use SQLite documents. Every HTTP request runs in a `BEGIN IMMEDIATE` transaction with a busy timeout. This preserves the existing PHP code style while making changes to inventory, holds and credit entries atomic and serializing competing requests. All transfer entries have transaction references; balances are derived from ledger history and active holds.
+
+The legacy JSON files in `data/` are empty fixtures and are not a runtime data source. No accounts or transactions from either previous repository are migrated automatically. This replacement is a fresh installation; previous source remains in Git history.
+
+## Deployment
+
+Use a PHP host with PDO SQLite or the included Apache Docker image:
+
+```sh
+docker build -t ecoloop .
+docker run --rm -p 8080:80 -v ecoloop-data:/var/www/ecoloop-storage -v ecoloop-uploads:/var/www/html/uploads ecoloop
 ```
 
-Open **http://127.0.0.1:8000**. These built-in servers are for local development.
+Use HTTPS, persistent storage, database/file backups and a single application instance using a local disk. The development server is for local demonstration. Apache must honour the supplied `.htaccess`; for another server configure equivalent denials for dotfiles, `data/`, `tests/`, `docs/`, `manage.php`, `router.php` and internal API helpers. Never execute uploaded files. Set secure, HttpOnly, SameSite session cookies in production. Disable PHP error display and add rate limiting at the web server for login/registration.
 
-The gateway finds `python3` on the server's PATH by default. If needed, copy `php-config.example.php` to `php-config.php` and set the actual Python executable path. For example, Windows might use `C:/Python312/python.exe`. Alternatively, set the `PYTHON_BINARY` process environment variable. A value in `.env` cannot select the interpreter because Python reads that file after it starts.
+This repository replaces the former Python/WSGI application. An existing host configured to start `app.py`, `wsgi.py` or serve `public/` must be updated to use the repository root with PHP. Uploading this code does not change an external hosting service's runtime settings.
 
-For the PHP demo, run `python manage.py demo`, then set these values in `.env`:
+## Checks
 
-```dotenv
-APP_ENV=development
-DEMO_MODE=1
-DATA_PATH=storage/demo.json
-UPLOAD_DIR=storage/demo-uploads
+```sh
+php tests/workflows.php
+python3 tests/integration.py
+node --check assets/app.js
+node --check assets/loop.js
 ```
 
-## Hosting
+Python is used only for HTTP integration tests. The test starts its own PHP server and temporary database, checks original barter/chat and the full credit/project lifecycle, and shuts it down. Set `PHP_BIN` if PHP is not on PATH; Windows portable PHP can use `PHP_EXTENSION_DIR` for its PDO SQLite extension.
 
-See [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) for Python WSGI and PHP/Apache configuration, including alwaysdata.
+The current suites contain **46 domain checks and 47 HTTP checks**. GitHub Actions runs both plus syntax validation. Manual browser checks cover the 60-credit match, separate supplier approvals, organiser intake/check-in, collection, supplier redemption and responsive Studio views.
 
-Use persistent local storage and HTTPS. The server must be able to write to `storage/`. For PHP hosting, the document root must be **`public/`**, with the remaining files outside the public document root. The application uses root-relative URLs; deploy at the root of a hostname, not under a URL subfolder.
+## Source continuity and limits
 
-Production configuration:
+Base: `xlsize0bruh/ecotrade` at `8d76d88c229a9d6fde3409da66431a49ab56e509`. Its last JavaScript update references borrowing/donation endpoints and modal elements absent from that repository. This version restores `assets/app.js` from EcoTrade's matching complete UI revision `d8b9191` so the existing dashboard works; no functioning borrowed-item or donation server existed to carry over. The marketplace layout is preserved, with a Project Studio navigation link and focused permission/upload/transaction fixes.
 
-```dotenv
-APP_ENV=production
-SITE_URL=https://your-account.alwaysdata.net
-SECURE_COOKIES=1
-DEMO_MODE=0
-COMMUNITY_NAME=Your Community
-COLLECTION_POINT=Your supervised collection point and hours
-DATA_PATH=storage/ecoloop.json
-UPLOAD_DIR=storage/uploads
-```
-
-## Included workflows
-
-- Marketplace search and filters, editable listings, photos, credit exchanges, barter and gifts.
-- Project requirements with dimensions, condition, quantities and approved alternatives.
-- Matching against available stock, reusable project templates and missing-material requests.
-- Multi-owner kits, supplier approval, organiser check-in and complete-kit collection.
-- 48-hour reservations; cancellation releases credits and tracks physical material returns.
-- Organiser-reviewed shelf contributions, supplier payouts, shelf redemption and contribution reversals.
-- Append-only credit records and stock reconciliation; organisers can pause credit issuance.
-- Participant-only messages, notifications, project showcases, leftover and creation relisting.
-
-A listing alone creates no credits. Contributions issue credits only after organiser acceptance of physical goods. Member trades transfer credits; shelf redemptions retire credits. Credits have no cash value.
-
-## JSON storage and backups
-
-`storage/ecoloop.json` contains users, sessions, listings, projects, kits, exchanges, credit records, messages and configuration. Nested data uses JSON arrays and objects. `ecoloop/catalog.json` supplies project templates and supported materials. `data.example.json` shows the empty data structure; the application creates the real file automatically.
-
-Each API operation acquires a separate file lock, reloads the latest JSON, validates the changes, and writes a temporary file before atomically replacing the snapshot. Failed operations roll back together. This protects reservations and credit settlement from concurrent requests on the same machine. Existing ledger entries cannot be modified through application transactions.
-
-Use one host with a persistent **local filesystem**. Do not place the JSON on an object-storage bucket, synced drive or network filesystem, or run separate replicas with independent storage. This whole-file store is intended for a small supervised school/community pilot; file size and serialized writes limit throughput.
-
-```bash
-python manage.py check
-python manage.py backup
-```
-
-Backups include the JSON and registered uploads under `storage/backups/`. Keep an additional copy elsewhere. To restore, stop all application processes and replace the configured JSON file and uploads directory with the matching backup contents. Do not commit live JSON, uploads, `.env` or backups to Git.
-
-## Tests
-
-```bash
-python -m unittest discover -s tests -v
-```
-
-The suite covers supplier payouts exactly once, reconciliation, barter, cancellation and return handling, expiration, stale matches, access controls, sessions, request forgery checks, uploads, rollback, ledger immutability and simultaneous processes competing for the last item. It also starts real HTTP servers for the Python and PHP entry points. The PHP integration test skips locally when PHP is absent; GitHub Actions requires PHP and runs it.
-
-## Files
-
-| Path | Purpose |
-| --- | --- |
-| `app.py` | Local Python server and isolated demo launcher |
-| `wsgi.py` | Production WSGI entry point |
-| `manage.py` | Organiser setup, checks and backups |
-| `ecoloop/domain.py` | Marketplace, projects, kits and credit rules |
-| `ecoloop/store.py` | JSON locking, validation and atomic persistence |
-| `ecoloop/web.py` | HTTP API, sessions, uploads and static-file allowlist |
-| `ecoloop/seed.py` | Demo fixtures |
-| `ecoloop/catalog.json` | Materials, conditions and project templates |
-| `public/` | HTML, CSS, JavaScript, artwork and PHP front controller |
-| `bridge.py` | Private PHP-to-Python request bridge |
-| `tests/` | Workflow, security and HTTP integration tests |
-| `docs/CONCEPT.md` | Product and hackathon concept |
-
-## Pilot limitations
-
-Account recovery, email verification, automated image scanning and a full moderation system are not included. Photo validation checks file signatures and size; it is not malware scanning. Organisers must supervise physical intake and collection. Do not enable public demo account switching on a real community.
-
-## License
-
-No open-source license is included. The repository owner retains all rights unless they choose to add a license.
+This is a working community pilot, not an automated logistics service. Collection scheduling is coordinated with the organiser; the app does not guarantee availability by a date. It currently records finished-project text, not project photo uploads or automatically quantified leftovers. Relist leftovers through My Items. There is no AI dependency, automatic substitution, email notification service, cash system, loss/write-down accounting or multi-campus administration. Pause stock intake and resolve any physical stock discrepancy before continuing a real pilot.

@@ -1,2 +1,0 @@
-# EcoLoop uses Python 3.10+ and the standard library.
-# No external runtime packages required.
