@@ -25,7 +25,7 @@ with tempfile.TemporaryDirectory(prefix='ecoloop-http-') as storage:
         for _ in range(50):
             try: urllib.request.urlopen(base+'/login.php',timeout=.3);break
             except OSError: time.sleep(.1)
-        anon=Client(); check(anon.call('/api/loop.php')[0]==401,'Authentication required')
+        anon=Client(); check(anon.call('/api/loop.php', {'action': 'test'})[0]==401,'Authentication required')
         clients={role:Client() for role in ['maker','asha','kabir','mira','organiser']}
         for role,client in clients.items(): check(client.call('/api/demo.php',{'id':role})[1]['success'],'Demo role '+role)
         a=clients['asha']; b=clients['kabir']; outsider=clients['mira']
