@@ -7,14 +7,15 @@ $user=$_SESSION['user'];
 <html lang="en">
 <head>
     <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Studio — EcoTrade / EcoLoop</title>
+    <title>Projects — EcoLoop</title>
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/loop.css">
 </head>
 <body>
-    <header class="topbar"><a class="brand" href="index.php"><span class="brand-icon">↗</span> EcoTrade <span class="brand-divider">/</span><span class="muted">EcoLoop</span></a>
-        <nav aria-label="Main navigation"><a href="dashboard.php">Marketplace</a><button class="active" data-view="studio">Project Studio</button><button data-view="projects">My projects</button><button data-view="credits">My credits</button></nav>
+    <header class="topbar"><a class="brand" href="dashboard.php"><img class="brand-logo" src="assets/favicon.svg" alt=""> EcoLoop</a>
+        <nav aria-label="Main navigation"><a class="section-link" href="dashboard.php">Marketplace</a><button class="section-link active" data-view="studio">Projects</button><button data-view="projects">My projects</button><button data-view="credits">My credits</button></nav>
         <span class="account"><span class="status-dot"></span><?php echo htmlspecialchars($user['username']); ?></span>
     </header>
     <div id="demo-bar" class="demo-bar" hidden><span>DEMO COMMUNITY · Sample goods and transactions</span><label>Try a role <select id="demo-role"><option value="maker">Pratyush · Maker</option><option value="asha">Asha · Cardboard</option><option value="kabir">Kabir · Tubes</option><option value="mira">Mira · Fabric</option><option value="organiser">Community organiser</option></select></label></div>
@@ -68,8 +69,9 @@ $user=$_SESSION['user'];
         <section class="view" id="view-organiser" hidden><span class="eyebrow">COMMUNITY OPERATIONS</span><h1>Keep the loop moving.</h1><div id="reconciliation" class="reconciliation"></div><h2>Incoming contributions</h2><div id="intake-list"></div><h2>Collection desk</h2><div id="collection-list"></div><h2>Shelf handovers</h2><div id="redemption-list"></div></section>
         <datalist id="material-types"><option value="cardboard"><option value="tubes"><option value="fabric and string"><option value="fabric"><option value="paper"><option value="wood"></datalist>
     </main>
-    <footer><a class="brand" href="dashboard.php">EcoTrade <span class="muted">/ EcoLoop</span></a><span>Less waste. More possibility.</span><div><button data-view="supply">Offer materials</button><button id="organiser-nav" data-view="organiser" hidden>Organiser</button><button id="refresh-data">Refresh</button></div></footer>
+    <footer><a class="brand" href="dashboard.php"><img class="brand-logo" src="assets/favicon.svg" alt=""> EcoLoop</a><span>Less waste. More possibility.</span><div><button data-view="supply">Offer materials</button><button id="organiser-nav" data-view="organiser" hidden>Organiser</button><button id="refresh-data">Refresh</button></div></footer>
     <dialog id="action-dialog"><form method="dialog"><button class="dialog-close" aria-label="Close">×</button></form><h2 id="dialog-title"></h2><p id="dialog-description" class="muted"></p><form id="action-form"><div id="dialog-fields"></div><button class="button primary full" id="dialog-submit">Confirm</button></form></dialog>
     <script src="assets/loop.js"></script>
 </body>
 </html>
+
