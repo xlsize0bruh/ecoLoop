@@ -10,7 +10,8 @@ if (isset($_SESSION['user'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EcoTrade — Local Item Trading</title>
+    <title>EcoLoop — Trade, build, and reuse locally</title>
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -42,14 +43,15 @@ if (isset($_SESSION['user'])) {
     <nav class="border-b border-neutral-900 bg-neutral-950/70 backdrop-blur-xl fixed w-full z-50">
         <div class="max-w-6xl mx-auto px-5 sm:px-8">
             <div class="flex justify-between items-center h-16">
-                <div class="flex items-center gap-2.5">
-                    <div class="w-7 h-7 rounded-lg bg-white flex items-center justify-center">
-                        <i class="fa-solid fa-leaf text-neutral-950 text-sm"></i>
-                    </div>
-                    <span class="font-semibold text-[15px] tracking-tight">EcoTrade</span>
-                </div>
+                <a href="index.php" class="flex items-center gap-2.5" aria-label="EcoLoop home">
+                    <img src="assets/favicon.svg" alt="" class="w-8 h-8 rounded-[9px]">
+                    <span class="font-semibold text-[15px] tracking-tight">EcoLoop</span>
+                </a>
                 <div class="flex items-center gap-2">
-                    <a href="projects.php" class="text-neutral-300 hover:text-white px-3 py-2 text-sm">Project Studio ↗</a>
+                    <div class="hidden sm:flex items-center rounded-xl border border-neutral-800 bg-neutral-900/70 p-1 mr-2" aria-label="Explore EcoLoop">
+                        <a href="login.php" class="bg-neutral-800 text-white px-3 py-1.5 rounded-lg text-sm">Marketplace</a>
+                        <a href="projects.php" class="text-neutral-400 hover:text-white px-3 py-1.5 rounded-lg text-sm">Projects</a>
+                    </div>
                     <a href="login.php" class="text-neutral-400 hover:text-white px-3.5 py-2 rounded-lg text-sm font-medium transition-colors">Sign in</a>
                     <a href="login.php?signup=1" class="bg-white hover:bg-neutral-200 text-neutral-950 px-4 py-2 rounded-lg text-sm font-semibold transition-colors">Get started</a>
                 </div>
@@ -88,7 +90,7 @@ if (isset($_SESSION['user'])) {
     <section id="features" class="py-24 border-t border-neutral-900">
         <div class="max-w-6xl mx-auto px-5 sm:px-8">
             <div class="max-w-xl mb-16">
-                <h2 class="text-3xl font-bold tracking-tight mb-3">Why EcoTrade?</h2>
+                <h2 class="text-3xl font-bold tracking-tight mb-3">Why EcoLoop?</h2>
                 <p class="text-neutral-400 text-lg">A simple, minimal way to reduce waste and get what you want.</p>
             </div>
 
@@ -120,7 +122,7 @@ if (isset($_SESSION['user'])) {
 
     <section class="py-24 border-t border-neutral-900">
         <div class="max-w-6xl mx-auto px-5 sm:px-8 grid md:grid-cols-2 gap-16 items-center">
-            <div><span class="text-xs uppercase tracking-[.2em] text-lime-300">Introducing EcoLoop / Project Studio</span>
+            <div><span class="text-xs uppercase tracking-[.2em] text-lime-300">EcoLoop Project Studio</span>
             <h2 class="text-4xl md:text-5xl font-bold tracking-tight mt-5 mb-6">Trade what you have.<br><span class="text-neutral-500">Build what you need.</span></h2>
             <p class="text-neutral-400 leading-relaxed mb-8">One idea. Materials from your community. Find the pieces for your next project, and give every contributor something useful in return.</p>
             <a href="projects.php" class="inline-block bg-white text-neutral-950 px-6 py-3 rounded-xl font-semibold">Enter the Project Studio ↗</a></div>
@@ -145,11 +147,12 @@ if (isset($_SESSION['user'])) {
     <footer class="border-t border-neutral-900 py-10">
         <div class="max-w-6xl mx-auto px-5 sm:px-8 flex items-center justify-between text-sm text-neutral-500">
             <div class="flex items-center gap-2">
-                <i class="fa-solid fa-leaf text-neutral-400"></i>
-                <span>EcoTrade</span>
+                <img src="assets/favicon.svg" alt="" class="w-6 h-6 rounded-md">
+                <span>EcoLoop</span>
             </div>
             <span>Trade local, save global.</span>
         </div>
     </footer>
 </body>
 </html>
+
