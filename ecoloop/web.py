@@ -24,12 +24,11 @@ STATIC = {'/': ('index.html', 'text/html; charset=utf-8'),
           '/print.css': ('print.css', 'text/css; charset=utf-8'),
           '/app.js': ('app.js', 'text/javascript; charset=utf-8'),
           '/art.js': ('art.js', 'text/javascript; charset=utf-8'),
-          '/favicon.svg': ('favicon.svg', 'image/svg+xml'),
-          '/hero-bg.jpg': ('hero-bg.jpg', 'image/jpeg')}
+          '/favicon.svg': ('favicon.svg', 'image/svg+xml')}
 SECURITY_HEADERS = [
     ('X-Content-Type-Options', 'nosniff'), ('Referrer-Policy', 'same-origin'),
     ('X-Frame-Options', 'DENY'), ('Permissions-Policy', 'camera=(), microphone=(), geolocation=()'),
-    ('Content-Security-Policy', "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data:; connect-src 'self'; font-src 'self' https://fonts.gstatic.com; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'")]
+    ('Content-Security-Policy', "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'")]
 
 
 def json_bytes(value):

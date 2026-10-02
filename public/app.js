@@ -51,16 +51,25 @@ function render() {
   const d = state.data, u = d.user;
   const unread = (d.notifications || []).filter(n => !n.read_at).length;
   const review = (d.exchanges || []).filter(x => x.status === 'pending' && x.seller_id === u?.id).length + (d.kits || []).filter(k => k.lines.some(l => l.supplier_id === u?.id && l.status === 'pending')).length;
-  const nav = (label, route, symbol, count = 0) => `<button class="nav-item${state.route === route ? ' active' : ''}" data-action="nav" data-id="${route}" ${state.route === route ? 'aria-current="page"' : ''}>${icon(symbol)}<span>${label}</span>${count ? `<span class="nav-counter">${count}</span>` : ''}</button>`;
-  $('#app').innerHTML = `<div class="shell"><aside class="sidebar" aria-label="Main navigation">
-    <a class="brand" href="#/market" aria-label="EcoLoop home"><span class="brand-mark">${icon('loop')}</span>Eco<span>Loop</span></a><p class="brand-sub">Good things come around.</p>
-    <div class="nav-group"><p class="nav-label">EXPLORE</p>${nav('Marketplace','market','market')}${nav('Project studio','projects','projects')}</div>
-    <div class="nav-group secondary"><p class="nav-label">YOUR CORNER</p>${nav('My listings','listings','box')}${nav('Exchanges & requests','requests','exchange',review)}${nav('My credits','wallet','wallet')}${nav('Community impact','impact','leaf')}${u?.role === 'organiser' ? nav('Organiser desk','organiser','shield') : ''}</div>
-    <div class="sidebar-bottom"><div class="side-note">${icon('spark')}<strong>A little less waste.<br>A lot more possibility.</strong><p>Your unused things could be someone’s next great idea.</p><button data-action="how">How EcoLoop works ${icon('arrow')}</button></div>
-    <button class="profile-btn" data-action="${u ? 'profile' : 'auth'}"><span class="avatar">${e(initials(u?.name || 'Guest'))}</span><span class="profile-text"><strong>${e(u?.name || 'Make yourself at home')}</strong><span>${u ? e(u.role === 'organiser' ? 'Community organiser' : 'Community member') : 'Sign in or join your community'}</span></span>${icon('chevron')}</button></div></aside>
-    <div class="main-wrap"><header class="topbar"><button class="mobile-menu icon-btn" data-action="menu" aria-label="Open navigation">${icon('menu')}</button><div class="community">${icon('pin')}<div><small>YOUR COMMUNITY</small><strong>${e(d.community)}</strong></div></div><div class="top-actions"><span class="top-caption">Small swaps. Bigger possibilities.</span><button class="icon-btn" data-action="notifications" aria-label="Notifications${unread ? ', '+unread+' unread' : ''}">${icon('bell')}${unread ? '<span class="notification-dot"></span>' : ''}</button>${button(u ? 'List an item' : 'Join the loop',u ? 'new-item' : 'auth','','primary','plus')}</div></header>
-    ${d.demo ? `<div class="demo-banner"><strong>Demo workspace</strong><span>Sample listings · real exchange workflows · no money involved</span><button data-action="demo">${u ? 'Switch account' : 'Try a demo account'}</button></div>` : ''}
-    <main id="main" tabindex="-1">${renderPage()}<footer class="page-footer"><span>${icon('leaf')}Made for a community that makes things last.</span><span>Trade what you have. Build what you need.</span></footer></main></div></div>`;
+  const navBtn = (label, route) => `<button class="nav-links-btn${state.route === route ? ' active' : ''}" data-action="nav" data-id="${route}" ${state.route === route ? 'aria-current="page"' : ''}>${label}${route === 'requests' && review ? ` <span class="nav-counter">${review}</span>` : ''}</button>`;
+  const isMarket = state.route === 'market';
+  $('#app').innerHTML = `
+    <nav class="topnav" aria-label="Main navigation">
+      <div class="nav-left">
+        <a class="brand" href="#/market" aria-label="EcoLoop home"><span class="brand-mark">${icon('loop')}</span><span class="brand-text">Eco<span>Loop</span></span></a>
+        <div class="nav-links">
+          ${navBtn('Marketplace','market')}${navBtn('Projects','projects')}${navBtn('My Listings','listings')}${navBtn('Exchanges','requests')}${navBtn('Credits','wallet')}${navBtn('Impact','impact')}${u?.role === 'organiser' ? navBtn('Organiser','organiser') : ''}
+        </div>
+      </div>
+      <div class="nav-right">
+        <button class="mobile-menu nav-icon-btn" data-action="menu" aria-label="Open navigation">${icon('menu')}</button>
+        <button class="nav-icon-btn" data-action="notifications" aria-label="Notifications${unread ? ', '+unread+' unread' : ''}">${icon('bell')}${unread ? '<span class="notification-dot"></span>' : ''}</button>
+        <button class="nav-icon-btn" data-action="${u ? 'profile' : 'auth'}" aria-label="${u ? e(u.name) : 'Sign in'}"><span class="avatar" style="width:100%;height:100%;border:0">${e(initials(u?.name || 'Guest'))}</span></button>
+        ${button(u ? 'List item' : 'Join', u ? 'new-item' : 'auth', '', 'primary', 'plus')}
+      </div>
+    </nav>
+    ${d.demo ? `<div class="demo-banner" style="margin-top:72px"><strong>Demo</strong><span>Sample listings · real workflows · no money</span><button data-action="demo">${u ? 'Switch account' : 'Try demo'}</button></div>` : ''}
+    ${isMarket ? marketplacePage() : `<div class="main-content no-hero">${renderPage()}<footer class="page-footer"><span>${icon('leaf')}Made for a community that makes things last.</span><span>Trade what you have. Build what you need.</span></footer></div>`}`;
 }
 function pageHeading(kicker, title, description, action = '') { return `<div class="page-heading"><div><span class="eyebrow">${kicker}</span><h1>${title}</h1><p>${description}</p></div>${action}</div>`; }
 function signedInPage(fn) { return state.data.user ? fn() : empty('Your corner of the loop', 'Sign in to manage your listings, projects, and exchanges.', button('Sign in or create an account','auth')); }
@@ -70,25 +79,43 @@ function renderPage() {
   if (state.route === 'requests') return signedInPage(requestsPage);
   if (state.route === 'wallet') return signedInPage(walletPage);
   if (state.route === 'impact') return impactPage();
-  if (state.route === 'organiser') return state.data.user?.role === 'organiser' ? organiserPage() : empty('The organiser’s desk', 'This space is for your community’s approved organisers.');
-  return marketplacePage();
+  if (state.route === 'organiser') return state.data.user?.role === 'organiser' ? organiserPage() : empty('The organiser's desk', 'This space is for your community's approved organisers.');
+  return '';
 }
 function filteredItems() {
   const { q, category, mode } = state.filter;
   return state.data.items.filter(i => i.available > 0 && (category === 'All items' || i.category === category) && (mode === 'all' || (mode === 'shelf' ? !i.owner_id : i.mode === mode)) && (!q || `${i.title} ${i.description} ${i.material} ${i.owner_name}`.toLowerCase().includes(q.toLowerCase())));
 }
 function itemCard(i) {
-  const price = i.mode === 'credits' ? `${i.credits}<small> cr / ${e(i.unit)}</small>` : i.mode === 'gift' ? 'A little gift' : 'Let’s trade';
-  return `<button class="item-card" data-action="item" data-id="${e(i.id)}" aria-label="View ${e(i.title)}"><div class="item-art" data-material="${e(i.material)}"><span class="item-label">${!i.owner_id ? 'Community shelf' : i.mode === 'gift' ? 'Free to a good home' : e(state.data.conditions[i.condition])}</span>${i.image ? `<img src="${e(i.image)}" alt="${e(i.title)}" loading="lazy">` : illustration(i.material)}</div><div class="item-content"><h3 class="item-title">${e(i.title)}</h3><p class="item-sub">${e(i.available)} ${e(i.unit)}${i.available !== 1 ? 's' : ''} available · ${e(i.category)}</p><div class="item-footer"><span class="owner"><span class="avatar">${e(initials(i.owner_name))}</span><span>${e(i.owner_name)}</span></span><span class="value">${price}</span></div></div></button>`;
+  const price = i.mode === 'credits' ? `${i.credits}<small> cr / ${e(i.unit)}</small>` : i.mode === 'gift' ? 'Free' : 'Barter';
+  return `<button class="item-card" data-action="item" data-id="${e(i.id)}" aria-label="View ${e(i.title)}"><div class="item-art" data-material="${e(i.material)}"><span class="item-label">${!i.owner_id ? 'Community shelf' : i.mode === 'gift' ? 'Free' : e(state.data.conditions[i.condition])}</span>${i.image ? `<img src="${e(i.image)}" alt="${e(i.title)}" loading="lazy">` : illustration(i.material)}</div><div class="item-content"><h3 class="item-title">${e(i.title)}</h3><p class="item-sub">${e(i.available)} ${e(i.unit)}${i.available !== 1 ? 's' : ''} · ${e(i.category)}</p><div class="item-footer"><span class="owner"><span class="avatar">${e(initials(i.owner_name))}</span><span>${e(i.owner_name)}</span></span><span class="value">${price}</span></div></div></button>`;
 }
 function marketGrid() { const items = filteredItems(); return items.length ? items.map(itemCard).join('') : empty('Nothing here just yet', 'Try another search or category. Your next good find could be one listing away.', button('List something useful','new-item','','secondary')); }
 function marketplacePage() {
-  return `<section class="hero"><div class="hero-copy"><div class="community-tag"><span class="dot"></span>A smaller footprint starts close to home</div><h1>Less new stuff.<br><em>More possibilities.</em></h1><p>Swap what you no longer need. Find materials for your next big idea. Give good things another chapter.</p><div class="hero-actions">${button('Build something new','nav','projects','primary','projects')}${button('How the loop works','how','','link','arrowUp')}</div></div><div class="hero-art"><div class="art-heading">Already here.<br>Ready for something new.</div><span class="art-mini">${icon('leaf')}</span>${illustration('organiser')}<span class="art-badge">${icon('loop')}Made with a little imagination.</span></div></section>
-    <section class="how-strip" aria-label="How EcoLoop works"><div class="how-cell"><span class="how-icon">${icon('exchange')}</span><div><strong>Trade a little</strong><p>Useful things, new homes.</p></div></div><div class="how-cell"><span class="how-icon">${icon('projects')}</span><div><strong>Make something</strong><p>Find your project’s materials.</p></div></div><div class="how-cell"><span class="how-icon">${icon('leaf')}</span><div><strong>Keep it going</strong><p>Every contributor benefits.</p></div></div></section>
-    <section><div class="section-head"><div><h2>Good finds, right around you.</h2><p>A community of useful things waiting for their next chapter.</p></div><span class="count-label" id="item-count">${filteredItems().length} available</span></div>
-    <div class="filters" aria-label="Filter by category">${['All items',...state.data.categories].map(c => `<button class="filter-chip${state.filter.category === c ? ' active' : ''}" data-action="category" data-id="${e(c)}" aria-pressed="${state.filter.category === c}">${e(c)}</button>`).join('')}</div>
-    <div class="search-row"><label class="search-field"><span class="sr-only">Search the marketplace</span>${icon('search')}<input id="market-search" type="search" placeholder="Try cardboard, books, art supplies…" value="${e(state.filter.q)}"></label><select id="mode-filter" aria-label="Exchange type">${options({all:'All exchanges',credits:'Trade credits',barter:'Direct barter',gift:'Gifts',shelf:'Community shelf'},state.filter.mode)}</select></div><div class="market-grid" id="market-grid">${marketGrid()}</div></section>`;
+  return `
+    <section class="hero-section">
+      <div class="hero-bg"></div>
+      <div class="hero-content">
+        <h1>eco<br>loop.</h1>
+        <p class="hero-subtitle">Trade what you have. Build what you need. Give good things another chapter in ${e(state.data.community)}.</p>
+        <div class="hero-actions">${button('Build something new','nav','projects','primary','projects')}${button('How it works','how','','secondary','arrowUp')}</div>
+      </div>
+      <div class="hero-badges">
+        <div class="hero-badge"><span class="badge-icon">${icon('exchange')}</span><span>Trade</span></div>
+        <div class="hero-badge"><span class="badge-icon">${icon('projects')}</span><span>Create</span></div>
+        <div class="hero-badge"><span class="badge-icon">${icon('leaf')}</span><span>Sustain</span></div>
+        <div class="hero-badge"><span class="badge-icon">${icon('loop')}</span><span>Community</span></div>
+      </div>
+    </section>
+    <div class="main-content with-hero">
+      <section class="how-strip" aria-label="How EcoLoop works"><div class="how-cell"><span class="how-icon">${icon('exchange')}</span><div><strong>Trade a little</strong><p>Useful things, new homes.</p></div></div><div class="how-cell"><span class="how-icon">${icon('projects')}</span><div><strong>Make something</strong><p>Find your project's materials.</p></div></div><div class="how-cell"><span class="how-icon">${icon('leaf')}</span><div><strong>Keep it going</strong><p>Every contributor benefits.</p></div></div></section>
+      <section><div class="section-head"><div><h2>Good finds, right around you.</h2><p>A community of useful things waiting for their next chapter.</p></div><span class="count-label" id="item-count">${filteredItems().length} available</span></div>
+      <div class="filters" aria-label="Filter by category">${['All items',...state.data.categories].map(c => `<button class="filter-chip${state.filter.category === c ? ' active' : ''}" data-action="category" data-id="${e(c)}" aria-pressed="${state.filter.category === c}">${e(c)}</button>`).join('')}</div>
+      <div class="search-row"><label class="search-field"><span class="sr-only">Search the marketplace</span>${icon('search')}<input id="market-search" type="search" placeholder="Try cardboard, books, art supplies…" value="${e(state.filter.q)}"></label><select id="mode-filter" aria-label="Exchange type">${options({all:'All exchanges',credits:'Trade credits',barter:'Direct barter',gift:'Gifts',shelf:'Community shelf'},state.filter.mode)}</select></div><div class="market-grid" id="market-grid">${marketGrid()}</div></section>
+      <footer class="page-footer"><span>${icon('leaf')}Made for a community that makes things last.</span><span>Trade what you have. Build what you need.</span></footer>
+    </div>`;
 }
+
 function updateMarket() { const grid = $('#market-grid'); if (grid) { grid.innerHTML = marketGrid(); $('#item-count').textContent = filteredItems().length + ' available'; } }
 function projectsPage() {
   const d = state.data;
@@ -246,7 +273,7 @@ async function readItemFields(root) { return {...values(root),image:await photoF
 const actions = {
   close:closeModal, how:showHow, auth:()=>showAuth('login'), register:()=>showAuth('register'), demo:showDemo,
   nav:el=>navigate(el.dataset.id),
-  menu:()=>$('.sidebar').classList.toggle('open'),
+  menu:()=>{const u=state.data.user;const navBtn=(l,r)=>`<button class="nav-links-btn${state.route===r?' active':''}" data-action="nav" data-id="${r}">${l}</button>`;openModal('Navigate','','<div class="nav-links" style="display:flex;flex-direction:column;gap:6px">'+navBtn('Marketplace','market')+navBtn('Projects','projects')+navBtn('My Listings','listings')+navBtn('Exchanges','requests')+navBtn('Credits','wallet')+navBtn('Impact','impact')+(u?.role==='organiser'?navBtn('Organiser','organiser'):'')+'</div>');},
   category:el=>{state.filter.category=el.dataset.id;$$('.filter-chip').forEach(b=>{b.classList.toggle('active',b===el);b.setAttribute('aria-pressed',b===el?'true':'false');});updateMarket();},
   'new-item':()=>showItemForm(), 'edit-item':el=>showItemForm(el.dataset.id), item:el=>showItem(el.dataset.id),
   'new-project':()=>showProjectForm(), 'edit-project':el=>showProjectForm(null,el.dataset.id),
@@ -282,7 +309,7 @@ const actions = {
 };
 document.addEventListener('click',async event=>{
   if(event.target.classList.contains('backdrop')) return closeModal();
-  if($('.sidebar.open')&&!event.target.closest('.sidebar')&&!event.target.closest('.mobile-menu')) $('.sidebar').classList.remove('open');
+
   const el=event.target.closest('[data-action]'); if(!el || el.disabled)return;
   const action=actions[el.dataset.action]; if(!action)return;
   event.preventDefault();
