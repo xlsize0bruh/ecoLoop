@@ -97,6 +97,27 @@ if (isset($_SESSION['user']) && !isset($_GET['home'])) {
         There comes a moment when you realize you already have more than you need. Instead of letting useful things sit unused, EcoLoop helps you give them a new purpose—by trading what you have for what you need and building something meaningful together.
       </p>
       <a href="dashboard.php" id="explore-btn" class="primary-btn">Explore EcoLoop <span class="btn-icon">&#x2197;</span></a>
+      
+      <!-- Infinite Marquee -->
+      <div class="hero-marquee-container">
+        <div class="hero-marquee">
+          <span>Zero Waste</span>
+          <span>Community Driven</span>
+          <span>Barter & Trade</span>
+          <span>Sustainable Living</span>
+          <span>Eco-Friendly</span>
+          <span>Circular Economy</span>
+          <span>Upcycle Materials</span>
+          <!-- Duplicate for seamless loop -->
+          <span aria-hidden="true">Zero Waste</span>
+          <span aria-hidden="true">Community Driven</span>
+          <span aria-hidden="true">Barter & Trade</span>
+          <span aria-hidden="true">Sustainable Living</span>
+          <span aria-hidden="true">Eco-Friendly</span>
+          <span aria-hidden="true">Circular Economy</span>
+          <span aria-hidden="true">Upcycle Materials</span>
+        </div>
+      </div>
     </main>
     
     <footer class="bottom-glass-card">
