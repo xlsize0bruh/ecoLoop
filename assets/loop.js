@@ -28,9 +28,16 @@ function showView(view) {
     if (view === 'organiser' && !state?.organiser) return;
     currentView = view;
     document.querySelectorAll('.view').forEach(el => el.hidden = el.id !== 'view-' + view);
-    document.querySelectorAll('.topbar [data-view]:not(.section-link)').forEach(el => el.classList.toggle('active', el.dataset.view === view));
-    const projectsSection = document.querySelector('.topbar .section-link[data-view]');
-    if (projectsSection) projectsSection.classList.toggle('active', ['studio','projects','credits','supply','organiser'].includes(view));
+    document.querySelectorAll('#center-nav [data-view]').forEach(el => {
+        const isActive = el.dataset.view === view;
+        if (isActive) {
+            el.classList.add('bg-neutral-700', 'text-white', 'shadow-sm');
+            el.classList.remove('text-neutral-400', 'hover:text-white', 'hover:bg-neutral-800/50');
+        } else {
+            el.classList.remove('bg-neutral-700', 'text-white', 'shadow-sm');
+            el.classList.add('text-neutral-400', 'hover:text-white', 'hover:bg-neutral-800/50');
+        }
+    });
     history.replaceState(null, '', '#' + view); window.scrollTo({top:0, behavior:'smooth'});
 }
 function addRequirement(value = {}) {

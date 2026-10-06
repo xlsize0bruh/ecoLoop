@@ -26,7 +26,7 @@ body {
     margin: 0;
     background-color: var(--bg);
     color: var(--text);
-    font-size: 14px;
+    font-size: 16px;
     line-height: 1.6;
 }
 
@@ -92,14 +92,14 @@ h1 {
 }
 
 h2 {
-    font-size:30px;
+    font-size:36px;
     font-weight:500;
     letter-spacing:-.045em;
     line-height:1.2;
 }
 
 h3 {
-    font-size:17px;
+    font-size:20px;
     font-weight:500;
     letter-spacing:-.025em;
 }
@@ -114,12 +114,12 @@ p {
 
 .micro {
     color:var(--muted);
-    font-size:11px;
+    font-size:13px;
     line-height:1.7;
 }
 
 .eyebrow {
-    font-size:10px;
+    font-size:12px;
     letter-spacing:.16em;
     font-weight:600;
     color:var(--muted);
@@ -162,7 +162,7 @@ p {
 
 .topbar nav a,.topbar nav button {
     color:var(--muted);
-    font-size:12px;
+    font-size:15px;
     padding:25px 0;
     position:relative;
 }
@@ -224,7 +224,7 @@ main {
 .breadcrumb {
     display:flex;
     justify-content:space-between;
-    font-size:9px;
+    font-size:12px;
     color:#777;
 }
 
@@ -277,10 +277,10 @@ main {
     align-items:center;
     justify-content:center;
     gap:20px;
-    padding:12px 18px;
+    padding:14px 24px;
     border:1px solid transparent;
-    border-radius:8px;
-    font-size:12px;
+    border-radius:10px;
+    font-size:15px;
     font-weight:600;
     white-space:nowrap;
 }
@@ -301,7 +301,7 @@ main {
 }
 
 .text-link {
-    font-size:11px;
+    font-size:14px;
     color: var(--text);
     padding:0;
 }
@@ -626,9 +626,9 @@ main {
 
 .templates {
     display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:12px;
-    margin-bottom:20px;
+    grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));
+    gap:18px;
+    margin-bottom:28px;
 }
 
 .template {
@@ -648,29 +648,30 @@ main {
 }
 
 .template-num {
-    font-size:10px;
+    font-size:13px;
     color:#7d826e;
 }
 
 .template>span:last-child {
     margin-left:auto;
     color:var(--accent);
+    font-size: 20px;
 }
 
 .template strong {
     font-weight:500;
-    font-size:11px;
+    font-size:15px;
     display:block;
 }
 
 .template small {
-    font-size:9px;
+    font-size:12px;
     color:#888e7c;
 }
 
 .builder {
     display:grid;
-    grid-template-columns:.85fr 1.2fr 1fr;
+    grid-template-columns:repeat(auto-fit, minmax(320px, 1fr));
     gap:0;
     border:1px solid var(--line);
     border-radius:12px;
@@ -679,7 +680,7 @@ main {
 }
 
 .builder>section,.builder>aside {
-    padding:24px;
+    padding:48px;
     min-width:0;
 }
 
@@ -690,26 +691,27 @@ main {
 .panel-title {
     display:flex;
     align-items:center;
-    gap:10px;
-    margin-bottom:23px;
+    gap:14px;
+    margin-bottom:32px;
 }
 
 .panel-title>span:first-child {
-    font-size:9px;
-    color: var(--muted);
+    font-size:13px;
+    font-weight: 600;
+    color: var(--accent);
     background: #E8F0E5;
-    border-radius:4px;
-    padding:3px 5px;
+    border-radius:6px;
+    padding:6px 8px;
 }
 
 .panel-title h3 {
     margin:0;
-    font-size:14px;
+    font-size:20px;
 }
 
 .panel-title>small {
     margin-left:auto;
-    font-size:10px;
+    font-size:13px;
     color: var(--muted);
 }
 
@@ -731,9 +733,9 @@ main {
 
 label {
     display:block;
-    font-size:10px;
+    font-size:13px;
     color:#a9aaa3;
-    margin-bottom:16px;
+    margin-bottom:18px;
 }
 
 input,select,textarea {
@@ -741,11 +743,11 @@ input,select,textarea {
     display:block;
     background: #FFFFFF;
     border:1px solid #CFD8C9;
-    border-radius:6px;
-    padding:10px 11px;
-    margin-top:7px;
+    border-radius:8px;
+    padding:14px 16px;
+    margin-top:8px;
     color: var(--text);
-    font-size:12px;
+    font-size:15px;
     min-width:0;
 }
 
@@ -776,8 +778,8 @@ input[type=checkbox] {
 
 .form-pair {
     display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:12px;
+    grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
+    gap:16px;
     align-items:end;
 }
 
@@ -814,38 +816,53 @@ input[type=checkbox] {
 
 .requirement {
     border-bottom:1px solid var(--line);
-    margin:18px 0;
-    padding-bottom:4px;
+    margin:24px 0;
+    padding-bottom:12px;
 }
 
 .requirement-head {
     display:flex;
-    gap:10px;
+    gap:16px;
+    align-items: center;
 }
 
 .requirement-head label {
     flex:1;
+    margin: 0;
 }
 
 .remove-row {
-    font-size:19px;
+    font-size:24px;
     color:#999;
-    height:36px;
-    margin-top:21px;
+    height:42px;
+    width:42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    transition: background 0.2s, color 0.2s;
+    cursor: pointer;
+}
+.remove-row:hover {
+    background: #FFECEC;
+    color: #FF5A5A;
 }
 
 .requirement .form-pair {
-    gap:8px;
+    gap:16px;
 }
 
 .requirement label {
-    margin-bottom:10px;
-    font-size:9px;
+    margin-bottom:12px;
+    font-size:13px;
+    font-weight: 500;
 }
 
 .requirement input,.requirement select {
-    padding:8px;
-    font-size:10px;
+    padding:12px 16px;
+    font-size:14px;
+    border-radius: 8px;
+    border: 1px solid #CFD8C9;
 }
 
 .specs {
@@ -856,18 +873,27 @@ input[type=checkbox] {
 
 .add-row {
     width:100%;
-    border:1px dashed #A8BDB1;
-    color: var(--muted);
-    padding:9px;
-    border-radius:6px;
-    font-size:10px;
-    margin:7px 0 20px;
+    border:2px dashed #A8BDB1;
+    color: var(--text);
+    background: transparent;
+    padding:16px;
+    border-radius:10px;
+    font-size:15px;
+    font-weight: 500;
+    margin:12px 0 24px;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+}
+.add-row:hover {
+    background: #F4F6F1;
+    border-color: var(--accent);
 }
 
 .requirements-panel>p:last-child {
-    font-size:9px;
+    font-size:13px;
     text-align:center;
-    margin:12px 0 0;
+    margin:16px 0 0;
+    color: var(--muted);
 }
 
 .kit-empty {
@@ -993,11 +1019,10 @@ input[type=checkbox] {
 
 .inventory-grid {
     display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:16px;
+    grid-template-columns:repeat(auto-fill, minmax(260px, 1fr));
+    gap:20px;
 }
 
-.inventory-card {
 .inventory-card {
     background: var(--panel);
     border:1px solid var(--line);
@@ -1045,17 +1070,17 @@ input[type=checkbox] {
 }
 
 .inventory-meta {
-    padding:17px;
+    padding:20px;
 }
 
 .inventory-meta h3 {
-    font-size:12px;
-    margin-bottom:6px;
+    font-size:16px;
+    margin-bottom:8px;
 }
 
 .inventory-meta p {
-    font-size:10px;
-    margin-bottom:14px;
+    font-size:14px;
+    margin-bottom:18px;
     color: var(--muted);
 }
 
@@ -1132,14 +1157,14 @@ footer>div {
 }
 
 .demo-bar {
-    padding:8px 5vw;
+    padding:10px 5vw;
     background: #FFFFFF;
     border-bottom:1px solid var(--line);
     display:flex;
     justify-content:space-between;
     gap:10px;
     align-items:center;
-    font-size:9px;
+    font-size:12px;
     color: var(--text);
     letter-spacing:.06em;
 }
@@ -1152,9 +1177,9 @@ footer>div {
 }
 
 .demo-bar select {
-    font-size:10px;
+    font-size:13px;
     margin:0;
-    padding:4px 10px;
+    padding:6px 12px;
     width:auto;
 }
 
@@ -1314,31 +1339,31 @@ footer>div {
 
 .supplier-network {
     display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:12px;
-    margin:20px 0;
+    grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));
+    gap:16px;
+    margin:24px 0;
 }
 
 .supplier-node {
     background: #F4F6F1;
     border:1px solid var(--line);
-    border-radius:8px;
-    padding:16px;
+    border-radius:10px;
+    padding:20px;
 }
 
 .supplier-node strong {
     display:block;
-    font-size:12px;
+    font-size:15px;
 }
 
 .supplier-node p {
-    font-size:11px;
+    font-size:13px;
     color: var(--muted);
-    margin:5px 0;
+    margin:8px 0;
 }
 
 .supplier-node small {
-    font-size:9px;
+    font-size:11px;
     color: var(--muted);
 }
 
@@ -1525,7 +1550,7 @@ dialog .checkbox {
         margin:auto;
     }
     .builder {
-        grid-template-columns:1fr 1.3fr;
+        /* auto-fit handles this smoothly now */
     }
     .builder .kit-panel {
         grid-column:1/-1;
@@ -1555,7 +1580,7 @@ dialog .checkbox {
         text-align:left;
     }
     .inventory-grid {
-        grid-template-columns:repeat(2,1fr);
+        /* auto-fill handles this smoothly now */
     }
     .topbar {
         flex-wrap:wrap;
@@ -1808,3 +1833,15 @@ dialog .checkbox {
     }
 }
 
+nav button[data-view].active {
+    background-color: rgb(64, 64, 64) !important;
+    color: white !important;
+}
+nav button[data-view]:not(.active) {
+    background-color: transparent !important;
+    color: rgb(163, 163, 163) !important;
+    transition: color 0.2s;
+}
+nav button[data-view]:not(.active):hover {
+    color: white !important;
+}

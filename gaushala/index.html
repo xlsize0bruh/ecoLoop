@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://unpkg.com/lenis@1.3.26/dist/lenis.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .grid>div {
+            grid-row: var(--r);
+            grid-column: var(--c);
+        }
+
+        img {
+            display: block;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="w-full bg-[#F4F6F1]">
+
+        <div class="grid grid-cols-8 grid-rows-20 gap-0.5 overflow-hidden">
+            <div class="elem col-span-1 row-span-1" style="--r: 1; --c: 3;"><img src="./img1.jpg" alt="Image 1"></div>
+            <div class="elem col-span-1 row-span-1" style="--r: 2; --c: 1;"><img src="./img2.jpg" alt="Image 2"></div>
+            <div class="elem col-span-1 row-span-1" style="--r: 2; --c: 7;"><img src="./img3.jpg" alt="Image 3"></div>
+            <div class="elem col-span-1 row-span-1" style="--r: 3; --c: 2;"><img src="./img4.jpg" alt="Image 4"></div>
+            <div class="elem col-span-1 row-span-1" style="--r: 3; --c: 6;"><img src="./img5.jpg" alt="Image 5"></div>
+            <div class="elem col-span-1 row-span-1" style="--r: 4; --c: 4;"><img src="./img6.jpg" alt="Image 6"></div>
+            <div class="elem col-span-1 row-span-1" style="--r: 5; --c: 8;"><img src="./img7.jpg" alt="Image 7"></div>
+            <div class="elem col-span-1 row-span-1" style="--r: 6; --c: 5;"><img src="./img8.jpg" alt="Image 8"></div>
+            <div class="elem col-span-1 row-span-1" style="--r: 6; --c: 2;"><img src="./img9.jpg" alt="Image 9"></div>
+            <div class="elem col-span-1 row-span-1" style="--r: 7; --c: 4;"><img src="./img10.jpg" alt="Image 10"></div>
+            <div class="elem col-span-1 row-span-1" style="--r: 8; --c: 6;"><img src="./img11.jpg" alt="Image 11"></div>
+            <div class="elem col-span-1 row-span-1" style="--r: 8; --c: 3;"><img src="./img12.jpg" alt="Image 12"></div>
+            <div class="elem col-span-1 row-span-1" style="--r: 9; --c: 7;"><img src="./img13.jpg" alt="Image 13"></div>
+            <div class="elem col-span-1 row-span-1" style="--r: 10; --c: 5;"><img src="./img14.jpg" alt="Image 14"></div>
+            <div class="elem col-span-1 row-span-1" style="--r: 10; --c: 2;"><img src="./img15.jpg" alt="Image 15"></div>
+            <div class="elem col-span-1 row-span-1" style="--r: 11; --c: 5;"><img src="./img16.jpg" alt="Image 16"></div>
+            <div class="elem col-span-1 row-span-1" style="--r: 12; --c: 3;"><img src="./img17.jpg" alt="Image 17"></div>
+            <div class="elem col-span-1 row-span-1" style="--r: 13; --c: 7;"><img src="./img18.jpg" alt="Image 18"></div>
+            <div class="elem col-span-1 row-span-1" style="--r: 9; --c: 1;"><img src="./img19.jpg" alt="Image 19"></div>
+            <div class="elem col-span-1 row-span-1" style="--r: 10; --c: 7;"><img src="./img20.jpg" alt="Image 20"></div>
+        </div>
+
+        <div id="hero" class="fixed top-0 left-0 w-full h-full flex flex-col items-center justify-center z-50">
+
+            <h1 id="heroTitle" class="text-9xl font-extrabold tracking-[-0.04em] text-[#35D47A] mb-4">
+                ECOLOOP
+            </h1>
+
+            <h2 id="heroSubtitle" class="text-2xl font-medium tracking-wide text-[#202823]">
+                Make more, Waste less.
+            </h2>
+
+        </div>
+
+        <div id="about" class="w-full min-h-screen mx-auto flex items-center justify-center relative z-10 text-center">
+
+            <p class="text-black text-4xl w-3/4 font-regular">
+                Make more, waste less. Turn nearby materials into your next idea.
+                EcoLoop helps you discover, reuse, and transform materials that would
+                otherwise go to waste—giving everyday waste a second life through
+                creativity and practical action.
+            </p>
+
+        </div>
+
+    </div>
+
+    <svg style="position:absolute;width:0;height:0">
+        <filter id="liquid">
+            <feTurbulence
+                type="fractalNoise"
+                baseFrequency="0.006 0.025"
+                numOctaves="2"
+                seed="4"
+                result="noise">
+            </feTurbulence>
+    
+            <feDisplacementMap
+                in="SourceGraphic"
+                in2="noise"
+                scale="0">
+            </feDisplacementMap>
+        </filter>
+    </svg>
+
+    <script src="https://unpkg.com/lenis@1.3.26/dist/lenis.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="Style.js"></script>
+
+</body>
+
+</html>

@@ -62,15 +62,6 @@ $user = $isGuest ? ['username' => 'Guest', 'pincode' => 'Anywhere'] : $_SESSION[
         body::before { display: none; }
         ::selection { background: #DAF1DE; color: #051F20; }
 
-        /* — Navbar — */
-        header.border-b {
-            background: #FFFFFF !important;
-            border-bottom: 1px solid #E1E8DB !important;
-            box-shadow: 0 4px 20px rgba(5,31,32,0.03);
-            backdrop-filter: none;
-            -webkit-backdrop-filter: none;
-        }
-
         /* — Sidebar — */
         aside {
             background: #F4F6F1 !important;
@@ -99,53 +90,47 @@ $user = $isGuest ? ['username' => 'Guest', 'pincode' => 'Anywhere'] : $_SESSION[
             background: rgba(22,56,50,0.04) !important;
         }
 
-        /* — Nav center pill — */
-        nav[aria-label="EcoLoop sections"] {
-            background: #F4F6F1 !important;
-            border: 1px solid #E1E8DB !important;
-            backdrop-filter: none;
-        }
-        nav[aria-label="EcoLoop sections"] a, nav[aria-label="EcoLoop sections"] span {
-            color: #163832 !important;
-        }
-        nav[aria-label="EcoLoop sections"] span { font-weight: 600; background: #FFFFFF !important; box-shadow: 0 2px 4px rgba(0,0,0,0.03); border-radius: 12px; padding: 4px 12px; }
-
         /* — Tailwind overrides for cards/containers — */
         .bg-neutral-950 { background: transparent !important; }
-        .bg-neutral-900\/60, .bg-neutral-900 {
+        main .bg-neutral-900\/60, main .bg-neutral-900, aside .bg-neutral-900, div[id$="-modal"] .bg-neutral-900 {
             background: #FFFFFF !important;
             border-color: #E1E8DB !important;
             color: #051F20 !important;
             box-shadow: 0 2px 8px rgba(5,31,32,0.02);
             backdrop-filter: none;
         }
-        .bg-neutral-800 {
+        main .bg-neutral-800, aside .bg-neutral-800, div[id$="-modal"] .bg-neutral-800 {
             background: #F9FBF8 !important;
             border-color: #E1E8DB !important;
             color: #051F20 !important;
         }
-        .bg-neutral-700 { background: #E8F0E5 !important; }
-        .border-neutral-900, .border-neutral-800, .border-neutral-700 { border-color: #E1E8DB !important; }
+        main .bg-neutral-700, aside .bg-neutral-700, div[id$="-modal"] .bg-neutral-700 { background: #E8F0E5 !important; }
+        main .border-neutral-900, main .border-neutral-800, main .border-neutral-700,
+        aside .border-neutral-900, aside .border-neutral-800, aside .border-neutral-700,
+        div[id$="-modal"] .border-neutral-900, div[id$="-modal"] .border-neutral-800, div[id$="-modal"] .border-neutral-700 { border-color: #E1E8DB !important; }
         
         /* Typography overrides */
-        .text-neutral-100, .text-white { color: #051F20 !important; }
-        .text-neutral-200 { color: #163832 !important; }
-        .text-neutral-300 { color: #2B473E !important; }
-        .text-neutral-400 { color: #4A665B !important; }
-        .text-neutral-500 { color: #698276 !important; }
-        .text-neutral-600 { color: #8AA094 !important; }
-        .text-neutral-700 { color: #A8BDB1 !important; }
+        main .text-neutral-100, aside .text-neutral-100, div[id$="-modal"] .text-neutral-100,
+        main .text-white, aside .text-white, div[id$="-modal"] .text-white { color: #051F20 !important; }
+        main .text-neutral-200, aside .text-neutral-200, div[id$="-modal"] .text-neutral-200 { color: #163832 !important; }
+        main .text-neutral-300, aside .text-neutral-300, div[id$="-modal"] .text-neutral-300 { color: #2B473E !important; }
+        main .text-neutral-400, aside .text-neutral-400, div[id$="-modal"] .text-neutral-400 { color: #4A665B !important; }
+        main .text-neutral-500, aside .text-neutral-500, div[id$="-modal"] .text-neutral-500 { color: #698276 !important; }
+        main .text-neutral-600, aside .text-neutral-600, div[id$="-modal"] .text-neutral-600 { color: #8AA094 !important; }
+        main .text-neutral-700, aside .text-neutral-700, div[id$="-modal"] .text-neutral-700 { color: #A8BDB1 !important; }
 
         /* — Buttons — */
-        .bg-white {
+        main .bg-white, aside .bg-white, div[id$="-modal"] .bg-white {
             background: #163832 !important;
             color: #FFFFFF !important;
         }
-        .bg-white:hover, .hover\:bg-neutral-200:hover {
+        main .bg-white:hover, main .hover\:bg-neutral-200:hover,
+        aside .bg-white:hover, aside .hover\:bg-neutral-200:hover,
+        div[id$="-modal"] .bg-white:hover, div[id$="-modal"] .hover\:bg-neutral-200:hover {
             background: #051F20 !important;
             color: #FFFFFF !important;
         }
-        .border-white\/10 { border-color: #E1E8DB !important; }
+        main .border-white\/10, aside .border-white\/10, div[id$="-modal"] .border-white\/10 { border-color: #E1E8DB !important; }
 
         /* — Item cards — */
         .group.bg-neutral-900\/60 {
@@ -278,51 +263,7 @@ $user = $isGuest ? ['username' => 'Guest', 'pincode' => 'Anywhere'] : $_SESSION[
     <div id="toast-container" class="fixed top-4 right-4 z-[100] flex flex-col gap-2 pointer-events-none"></div>
 
     <!-- Navbar -->
-    <header class="border-b border-neutral-900 bg-neutral-950 z-20 shrink-0">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 w-full">
-            <div class="flex justify-between items-center h-16">
-                <a href="index.php?home=1" class="flex items-center gap-2.5" aria-label="EcoLoop marketplace">
-                    <img src="assets/favicon.svg" alt="" class="w-8 h-8 rounded-[9px]">
-                    <span class="font-semibold text-[15px] tracking-tight hidden sm:block">EcoLoop</span>
-                </a>
-
-                <nav class="absolute left-1/2 -translate-x-1/2 flex items-center rounded-xl border border-neutral-800 bg-neutral-900 p-1" aria-label="EcoLoop sections">
-                    <a href="dashboard.php" aria-current="page" class="bg-neutral-700 text-white px-3 sm:px-4 py-1.5 rounded-lg text-xs sm:text-sm font-medium">Marketplace</a>
-                    <a href="projects.php" class="text-neutral-400 hover:text-white px-3 sm:px-4 py-1.5 rounded-lg text-xs sm:text-sm font-medium">Projects</a>
-                </nav>
-
-                <div class="flex items-center gap-3">
-                    <div class="hidden sm:flex items-center gap-1.5 text-xs text-neutral-500">
-                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400/80 live-dot"></span>
-                        Live
-                    </div>
-                    <div class="text-xs text-neutral-400 hidden md:flex items-center gap-1.5 bg-neutral-900 border border-neutral-800 px-2.5 py-1.5 rounded-lg">
-                        <i class="fa-solid fa-location-dot text-neutral-500 text-[10px]"></i>
-                        <span class="font-medium text-neutral-200"><?php echo htmlspecialchars($user['pincode']); ?></span>
-                    </div>
-                    <div class="hidden md:flex items-center gap-2.5 pl-1">
-                        <div class="w-8 h-8 rounded-full bg-neutral-800 border border-neutral-700 flex items-center justify-center font-semibold text-sm">
-                            <?php echo htmlspecialchars(strtoupper(substr($user['username'], 0, 1))); ?>
-                        </div>
-                        <div class="hidden sm:block leading-tight">
-                            <div class="font-medium text-sm"><?php echo htmlspecialchars($user['username']); ?></div>
-                            <div class="text-[11px] text-neutral-500 flex items-center gap-2">
-                                <span id="header-pos">0 <i class="fa-solid fa-thumbs-up text-[9px]"></i></span>
-                                <span id="header-neg">0 <i class="fa-solid fa-thumbs-down text-[9px]"></i></span>
-                            </div>
-                        </div>
-                    </div>
-                    <?php if ($isGuest): ?>
-                        <a href="index.php" class="bg-white text-black px-4 py-2 rounded-lg text-sm font-semibold ml-2 hover:bg-neutral-200 transition-colors">Login</a>
-                    <?php else: ?>
-                    <button id="logout-btn" class="text-neutral-500 hover:text-white hover:bg-neutral-900 w-9 h-9 rounded-lg flex items-center justify-center transition-colors" title="Logout">
-                        <i class="fa-solid fa-right-from-bracket text-sm"></i>
-                    </button>
-                    <?php endif; ?>
-                </div>
-            </div>
-        </div>
-    </header>
+    <?php include 'navbar.php'; ?>
 
     <div class="flex-1 flex overflow-hidden">
         <!-- Sidebar -->
@@ -574,6 +515,7 @@ $user = $isGuest ? ['username' => 'Guest', 'pincode' => 'Anywhere'] : $_SESSION[
     </div>
 
     <script>const CURRENT_USER_ID = <?php echo json_encode($user['id'], JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT); ?>;</script>
+    <?php include 'auth_modal.php'; ?>
     <script src="assets/app.js"></script>
 </body>
 </html>
